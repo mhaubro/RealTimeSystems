@@ -8,11 +8,11 @@
 clock bagclock;</declaration>
 		<location id="id0" x="-102" y="-68">
 			<name x="-161" y="-102">A1Detect</name>
-			<label kind="invariant" x="-221" y="-85">bagclock&lt;=1.6</label>
+			<label kind="invariant" x="-221" y="-85">bagclock&lt;=16</label>
 		</location>
 		<location id="id1" x="297" y="-76">
 			<name x="287" y="-110">A2Detect</name>
-			<label kind="invariant" x="287" y="-59">bagclock&lt;=1.6</label>
+			<label kind="invariant" x="287" y="-59">bagclock&lt;=16</label>
 		</location>
 		<location id="id2" x="102" y="-187">
 			<name x="92" y="-221">Start</name>
@@ -20,43 +20,43 @@ clock bagclock;</declaration>
 		</location>
 		<location id="id3" x="289" y="212">
 			<name x="279" y="178">D2</name>
-			<label kind="invariant" x="279" y="229">bagclock&lt;2.4</label>
+			<label kind="invariant" x="279" y="229">bagclock&lt;24</label>
 		</location>
 		<location id="id4" x="-93" y="221">
 			<name x="-103" y="187">D1</name>
-			<label kind="invariant" x="-136" y="238">bagclock&lt;2.4</label>
+			<label kind="invariant" x="-136" y="238">bagclock&lt;24</label>
 		</location>
 		<location id="id5" x="-161" y="93">
 			<name x="-171" y="59">E1</name>
-			<label kind="invariant" x="-204" y="42">bagclock&lt;1.2</label>
+			<label kind="invariant" x="-204" y="42">bagclock&lt;12</label>
 		</location>
 		<location id="id6" x="357" y="102">
 			<name x="347" y="68">E2</name>
-			<label kind="invariant" x="323" y="51">bagclock&lt;1.2</label>
+			<label kind="invariant" x="323" y="51">bagclock&lt;12</label>
 		</location>
 		<location id="id7" x="195" y="102">
 			<name x="185" y="68">C2</name>
-			<label kind="invariant" x="144" y="119">bagclock&lt;=2.8</label>
+			<label kind="invariant" x="144" y="119">bagclock&lt;=28</label>
 		</location>
 		<location id="id8" x="0" y="102">
 			<name x="-10" y="68">C1</name>
-			<label kind="invariant" x="-51" y="119">bagclock&lt;=2.8</label>
+			<label kind="invariant" x="-51" y="119">bagclock&lt;=28</label>
 		</location>
 		<location id="id9" x="93" y="110">
 			<name x="83" y="76">F</name>
-			<label kind="invariant" x="51" y="136">bagclock&lt;3.3</label>
+			<label kind="invariant" x="51" y="136">bagclock&lt;33</label>
 		</location>
 		<location id="id10" x="195" y="8">
 			<name x="185" y="-26">B2</name>
-			<label kind="invariant" x="110" y="-51">bagclock&gt;=4</label>
+			<label kind="invariant" x="110" y="-51">bagclock&gt;=40</label>
 		</location>
 		<location id="id11" x="8" y="0">
 			<name x="-2" y="-34">B1</name>
-			<label kind="invariant" x="0" y="-51">bagclock &gt;=4</label>
+			<label kind="invariant" x="0" y="-51">bagclock &gt;=40</label>
 		</location>
 		<location id="id12" x="195" y="-110">
 			<name x="185" y="-144">A2</name>
-			<label kind="invariant" x="119" y="-93">bagclock&lt;1.6</label>
+			<label kind="invariant" x="119" y="-93">bagclock&lt;16</label>
 		</location>
 		<location id="id13" x="17" y="-110">
 			<name x="7" y="-144">A1</name>
@@ -72,24 +72,24 @@ clock bagclock;</declaration>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id2"/>
-			<label kind="guard" x="-306" y="93">bagclock&gt;=1.0</label>
+			<label kind="guard" x="-306" y="93">bagclock&gt;=10</label>
 			<nail x="-314" y="93"/>
 			<nail x="-314" y="-204"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id11"/>
-			<label kind="guard" x="-153" y="-25">bagclock==1.6</label>
+			<label kind="guard" x="-153" y="-25">bagclock==16</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
 			<target ref="id0"/>
-			<label kind="guard" x="-110" y="-119">bagclock&lt;1.6</label>
+			<label kind="guard" x="-110" y="-119">bagclock&lt;16</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id10"/>
-			<label kind="guard" x="238" y="-25">bagclock==1.6</label>
+			<label kind="guard" x="238" y="-25">bagclock==16</label>
 		</transition>
 		<transition>
 			<source ref="id12"/>
@@ -98,61 +98,61 @@ clock bagclock;</declaration>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-255" y="136">bagclock&gt;=2.3</label>
+			<label kind="guard" x="-255" y="136">bagclock&gt;=23</label>
 			<label kind="assignment" x="-229" y="153">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-127" y="76">bagclock&gt;=2.4</label>
+			<label kind="guard" x="-127" y="76">bagclock&gt;=24</label>
 			<label kind="assignment" x="-119" y="102">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id6"/>
-			<label kind="guard" x="340" y="136">bagclock&gt;=2.3</label>
+			<label kind="guard" x="340" y="136">bagclock&gt;=23</label>
 			<label kind="assignment" x="340" y="153">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id6"/>
-			<label kind="guard" x="212" y="85">bagclock&gt;=2.4</label>
+			<label kind="guard" x="212" y="85">bagclock&gt;=24</label>
 			<label kind="assignment" x="213" y="102">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id3"/>
-			<label kind="guard" x="136" y="187">bagclock&gt;=2.7</label>
+			<label kind="guard" x="136" y="187">bagclock&gt;=27</label>
 			<label kind="assignment" x="136" y="204">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id4"/>
-			<label kind="guard" x="-34" y="187">bagclock&gt;=2.7</label>
+			<label kind="guard" x="-34" y="187">bagclock&gt;=27</label>
 			<label kind="assignment" x="-34" y="204">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id9"/>
-			<label kind="guard" x="42" y="85">bagclock&gt;=2.4</label>
+			<label kind="guard" x="42" y="85">bagclock&gt;=24</label>
 			<label kind="assignment" x="51" y="59">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id9"/>
-			<label kind="guard" x="42" y="85">bagclock&gt;=2.4</label>
+			<label kind="guard" x="42" y="85">bagclock&gt;=24</label>
 			<label kind="assignment" x="51" y="59">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id7"/>
-			<label kind="guard" x="195" y="21">bagclock==4</label>
+			<label kind="guard" x="195" y="21">bagclock==40</label>
 			<label kind="assignment" x="195" y="42">bagclock=0</label>
 		</transition>
 		<transition>
 			<source ref="id11"/>
 			<target ref="id8"/>
-			<label kind="guard" x="8" y="17">bagclock==4</label>
+			<label kind="guard" x="8" y="17">bagclock==40</label>
 			<label kind="assignment" x="8" y="34">bagclock=0</label>
 		</transition>
 		<transition>
