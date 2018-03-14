@@ -2,7 +2,8 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Place global declarations here.
-const int N = 4;
+const int N = 8;
+typedef int[0,N-1] t_id;
 
 chan B_forward, B_stop, 
     A_forward, A_stop, 
@@ -26,11 +27,12 @@ int S1_val = 75, S2_val = 75,
 
 //int s1, s2;</declaration>
 	<template>
-		<name>PhysicalModel</name>
-		<parameter>const bool black, chan &amp;checkIn1, chan &amp;checkIn2</parameter>
+		<name>Bag</name>
+		<parameter>t_id id</parameter>
 		<declaration>clock x;
 bool dir;
-</declaration>
+
+bool isBlack() { return id % 2 == 0; }</declaration>
 		<location id="id0" x="-408" y="136" color="#ffffff">
 			<committed/>
 		</location>
@@ -289,7 +291,7 @@ bool dir;
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
-			<label kind="guard" x="-161" y="-748">!black</label>
+			<label kind="guard" x="-161" y="-748">!isBlack()</label>
 			<label kind="assignment" x="-161" y="-731">S2_val = 55</label>
 			<nail x="-170" y="-782"/>
 			<nail x="-170" y="-680"/>
@@ -297,7 +299,7 @@ bool dir;
 		<transition>
 			<source ref="id2"/>
 			<target ref="id6"/>
-			<label kind="guard" x="-748" y="-748">black</label>
+			<label kind="guard" x="-748" y="-748">isBlack()</label>
 			<label kind="assignment" x="-748" y="-731">S1_val = 40</label>
 			<nail x="-646" y="-782"/>
 			<nail x="-646" y="-680"/>
@@ -311,7 +313,7 @@ bool dir;
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
-			<label kind="guard" x="-340" y="-748">black</label>
+			<label kind="guard" x="-340" y="-748">isBlack()</label>
 			<label kind="assignment" x="-340" y="-731">S2_val = 40</label>
 		</transition>
 		<transition>
@@ -323,7 +325,7 @@ bool dir;
 		<transition>
 			<source ref="id2"/>
 			<target ref="id6"/>
-			<label kind="guard" x="-561" y="-748">!black</label>
+			<label kind="guard" x="-561" y="-748">!isBlack()</label>
 			<label kind="assignment" x="-561" y="-731">S1_val = 55</label>
 			<nail x="-578" y="-765"/>
 		</transition>
@@ -460,7 +462,7 @@ bool dir;
 		<transition>
 			<source ref="id17"/>
 			<target ref="id5"/>
-			<label kind="synchronisation" x="-357" y="-943">checkIn2?</label>
+			<label kind="synchronisation" x="-357" y="-943">checkIn2[id]?</label>
 			<label kind="assignment" x="-365" y="-909">S2_val = 65,
 x:=0</label>
 			<nail x="-238" y="-918"/>
@@ -468,7 +470,7 @@ x:=0</label>
 		<transition>
 			<source ref="id17"/>
 			<target ref="id7"/>
-			<label kind="synchronisation" x="-527" y="-943">checkIn1?</label>
+			<label kind="synchronisation" x="-527" y="-943">checkIn1[id]?</label>
 			<label kind="assignment" x="-535" y="-909">S1_val = 65,
 x:=0</label>
 			<nail x="-579" y="-917"/>
@@ -540,53 +542,53 @@ S1_val = 75</label>
 	</template>
 	<template>
 		<name>Sensor</name>
-		<parameter>int &amp;senseVal, int&amp;controlVal, bool &amp;lightOn, chan &amp;sense, chan &amp;activate, chan &amp;deactivate</parameter>
+		<parameter>int &amp;SVal, int&amp;CVal, bool &amp;lightOn, chan &amp;sense, chan &amp;activate, chan &amp;deactivate</parameter>
 		<location id="id33" x="-204" y="0">
-			<name x="-229" y="-51">Active</name>
+			<name x="-221" y="-51">Active</name>
 		</location>
-		<location id="id34" x="0" y="0">
-			<name x="-17" y="-51">Passive</name>
+		<location id="id34" x="-442" y="0">
+			<name x="-467" y="-51">Passive</name>
 		</location>
 		<init ref="id34"/>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="76" y="-8">sense?</label>
-			<nail x="68" y="-34"/>
-			<nail x="68" y="34"/>
+			<label kind="synchronisation" x="-569" y="-25">sense?</label>
+			<nail x="-510" y="-34"/>
+			<nail x="-510" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="-144" y="-76">deactivate?</label>
-			<label kind="assignment" x="-144" y="-59">lightOn:=false</label>
-			<nail x="-170" y="-34"/>
-			<nail x="-34" y="-34"/>
+			<label kind="synchronisation" x="-357" y="8">deactivate?</label>
+			<label kind="assignment" x="-365" y="34">lightOn:=false</label>
+			<nail x="-238" y="34"/>
+			<nail x="-408" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id33"/>
-			<label kind="synchronisation" x="-136" y="34">activate?</label>
-			<label kind="assignment" x="-136" y="51">lightOn:=true</label>
-			<nail x="-34" y="34"/>
-			<nail x="-170" y="34"/>
+			<label kind="synchronisation" x="-348" y="-59">activate?</label>
+			<label kind="assignment" x="-365" y="-34">lightOn:=true</label>
+			<nail x="-408" y="-34"/>
+			<nail x="-238" y="-34"/>
 		</transition>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id33"/>
-			<label kind="synchronisation" x="-425" y="-25">sense?</label>
-			<label kind="assignment" x="-425" y="-8">controlVal = senseVal</label>
-			<nail x="-272" y="34"/>
-			<nail x="-272" y="-34"/>
+			<label kind="synchronisation" x="-119" y="-25">sense?</label>
+			<label kind="assignment" x="-119" y="0">CVal:=SVal</label>
+			<nail x="-136" y="-34"/>
+			<nail x="-136" y="34"/>
 		</transition>
 	</template>
 	<template>
 		<name>User</name>
 		<parameter>bool &amp;lightOn, const int sep</parameter>
 		<declaration>clock x;
-int bagId;</declaration>
-		<location id="id35" x="102" y="-170">
-			<label kind="invariant" x="92" y="-153">x&lt;=sep</label>
+int id;</declaration>
+		<location id="id35" x="102" y="-204">
+			<label kind="invariant" x="85" y="-178">x&lt;=sep</label>
 		</location>
 		<location id="id36" x="204" y="-170">
 		</location>
@@ -604,30 +606,30 @@ int bagId;</declaration>
 		<transition>
 			<source ref="id35"/>
 			<target ref="id37"/>
-			<label kind="guard" x="144" y="-161">x&gt;=sep</label>
+			<label kind="guard" x="110" y="-144">x&gt;=sep</label>
 		</transition>
 		<transition>
 			<source ref="id39"/>
 			<target ref="id35"/>
-			<label kind="guard" x="17" y="-161">x&lt;sep</label>
+			<label kind="guard" x="51" y="-144">x&lt;sep</label>
 		</transition>
 		<transition>
 			<source ref="id36"/>
 			<target ref="id36"/>
-			<nail x="238" y="-204"/>
-			<nail x="170" y="-204"/>
+			<nail x="238" y="-221"/>
+			<nail x="170" y="-221"/>
 		</transition>
 		<transition>
 			<source ref="id37"/>
 			<target ref="id36"/>
-			<label kind="guard" x="212" y="-153">bagId &gt;= N</label>
+			<label kind="guard" x="229" y="-144">id &gt;= N</label>
 		</transition>
 		<transition>
 			<source ref="id37"/>
 			<target ref="id38"/>
-			<label kind="guard" x="212" y="-85">bagId &lt; N</label>
-			<label kind="synchronisation" x="212" y="-59">checkIn2[bagId]!</label>
-			<label kind="assignment" x="212" y="-34">bagId := bagId + 1,
+			<label kind="guard" x="229" y="-85">id &lt; N</label>
+			<label kind="synchronisation" x="229" y="-59">checkIn2[id]!</label>
+			<label kind="assignment" x="229" y="-34">id := id + 1,
 x:=0</label>
 		</transition>
 		<transition>
@@ -649,7 +651,7 @@ x:=0</label>
 		</transition>
 	</template>
 	<template>
-		<name>ControlModel</name>
+		<name>Controller</name>
 		<declaration>clock y, z;
 
 bool dirA, destA;
@@ -707,7 +709,7 @@ bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</d
 		</location>
 		<location id="id56" x="170" y="-102">
 			<name x="204" y="-136">Awaiting_Valid_Color</name>
-			<label kind="invariant" x="204" y="-77">y &lt;= 8</label>
+			<label kind="invariant" x="187" y="-86">y &lt;= 8</label>
 		</location>
 		<location id="id57" x="-204" y="-102">
 			<committed/>
@@ -829,8 +831,8 @@ y:=0</label>
 		<transition>
 			<source ref="id56"/>
 			<target ref="id44"/>
-			<label kind="guard" x="204" y="-59">y==8</label>
-			<label kind="assignment" x="204" y="-42">y:=0</label>
+			<label kind="guard" x="187" y="-68">y==8</label>
+			<label kind="assignment" x="187" y="-51">y:=0</label>
 		</transition>
 		<transition>
 			<source ref="id45"/>
@@ -842,112 +844,95 @@ y:=0</label>
 	</template>
 	<template>
 		<name>FeedBelt</name>
-		<parameter>chan &amp;forward, chan &amp;stop, bool &amp;stop_belt</parameter>
-		<location id="id58" x="68" y="-34">
-			<name x="76" y="-68">Stop</name>
+		<parameter>chan &amp;forward, chan &amp;stop, bool &amp;stopped</parameter>
+		<location id="id58" x="-171" y="-34">
+			<name x="-204" y="-76">Stop</name>
 		</location>
-		<location id="id59" x="-135" y="-34">
-			<name x="-178" y="-85">Forward</name>
+		<location id="id59" x="34" y="-34">
+			<name x="34" y="-76">Forward</name>
 		</location>
 		<init ref="id58"/>
 		<transition>
 			<source ref="id58"/>
 			<target ref="id59"/>
-			<label kind="synchronisation" x="-59" y="8">forward?</label>
-			<label kind="assignment" x="-85" y="34">stop_belt:=false</label>
-			<nail x="34" y="34"/>
-			<nail x="-101" y="34"/>
+			<label kind="synchronisation" x="-93" y="-93">forward?</label>
+			<label kind="assignment" x="-110" y="-68">stopped:=false</label>
+			<nail x="-136" y="-68"/>
+			<nail x="0" y="-68"/>
 		</transition>
 		<transition>
 			<source ref="id59"/>
 			<target ref="id58"/>
-			<label kind="synchronisation" x="-51" y="-127">stop?</label>
-			<label kind="assignment" x="-85" y="-102">stop_belt:=true</label>
-			<nail x="-102" y="-102"/>
-			<nail x="34" y="-102"/>
+			<label kind="synchronisation" x="-85" y="-25">stop?</label>
+			<label kind="assignment" x="-110" y="0">stopped:=true</label>
+			<nail x="0" y="0"/>
+			<nail x="-136" y="0"/>
 		</transition>
 	</template>
 	<template>
 		<name>DistributionBelt</name>
-		<location id="id60" x="51" y="-17">
-			<name x="42" y="-59">Backward</name>
+		<location id="id60" x="34" y="0">
+			<name x="25" y="-51">Backward</name>
 		</location>
-		<location id="id61" x="-153" y="-17">
-			<name x="-187" y="-68">Forward</name>
+		<location id="id61" x="-170" y="0">
+			<name x="-204" y="-51">Forward</name>
 		</location>
 		<init ref="id61"/>
 		<transition>
 			<source ref="id61"/>
 			<target ref="id61"/>
-			<label kind="synchronisation" x="-323" y="-42">C_forward?</label>
-			<label kind="assignment" x="-314" y="-25">fwd:=true</label>
+			<label kind="synchronisation" x="-323" y="-17">C_forward?</label>
+			<label kind="assignment" x="-314" y="0">fwd:=true</label>
 			<nail x="-238" y="-34"/>
-			<nail x="-238" y="0"/>
+			<nail x="-238" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id60"/>
 			<target ref="id61"/>
-			<label kind="synchronisation" x="-109" y="8">C_reverse?</label>
-			<label kind="assignment" x="-109" y="25">fwd:=true</label>
-			<nail x="17" y="25"/>
-			<nail x="-127" y="25"/>
+			<label kind="synchronisation" x="-102" y="8">C_reverse?</label>
+			<label kind="assignment" x="-102" y="34">fwd:=true</label>
+			<nail x="0" y="34"/>
+			<nail x="-136" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id61"/>
 			<target ref="id60"/>
-			<label kind="synchronisation" x="-119" y="-76">C_reverse?</label>
-			<label kind="assignment" x="-109" y="-51">fwd:=false</label>
-			<nail x="-127" y="-51"/>
-			<nail x="17" y="-51"/>
+			<label kind="synchronisation" x="-102" y="-59">C_reverse?</label>
+			<label kind="assignment" x="-102" y="-34">fwd:=false</label>
+			<nail x="-144" y="-34"/>
+			<nail x="0" y="-34"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-Bag1 = PhysicalModel(true, checkIn1[0], checkIn2[0]);
-Bag2 = PhysicalModel(false, checkIn1[1], checkIn2[1]);
-Bag3 = PhysicalModel(true, checkIn1[2], checkIn2[2]);
-Bag4 = PhysicalModel(false, checkIn1[3], checkIn2[3]);
-
 Sensor1 = Sensor(S1_val, C1_val, lightOn1, senseValue1, S1_activate, S1_passivate);
 Sensor2 = Sensor(S2_val, C2_val, lightOn2, senseValue2, S2_activate, S2_passivate);
 FeedBelt1 = FeedBelt(A_forward, A_stop, stop1);
 FeedBelt2 = FeedBelt(B_forward, B_stop, stop2);
-User1 = User(lightOn2, 75);
+User1 = User(lightOn2, 150);
 // List one or more processes to be composed into a system.
-system Bag1, Bag2, Bag3, Bag4, Sensor1, Sensor2, User1, ControlModel, FeedBelt1, FeedBelt2, DistributionBelt;
+system Bag, Sensor1, Sensor2, User1, Controller, FeedBelt1, FeedBelt2, DistributionBelt;
     </system>
 	<queries>
 		<query>
-			<formula>A[] Bag1.Dest_A imply !Bag1.black
+			<formula>A[] forall(i:t_id) Bag(i).Dest_B imply Bag(i).isBlack()
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] Bag1.Dest_B imply Bag1.black
+			<formula>A[] forall(i:t_id) Bag(i).Dest_A imply !Bag(i).isBlack()
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] Bag1.Initial imply (not Bag1.Error)
+			<formula>A[] forall(i:t_id) not Bag(i).Error
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] not Bag1.Error &amp;&amp; not Bag2.Error
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A&lt;&gt; Bag1.Initial imply Bag1.Dest_B
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>Bag1.Initial --&gt; Bag1.Dest_B
+			<formula>Bag(0).Initial --&gt; Bag(0).Dest_A
 			</formula>
 			<comment>
 			</comment>
