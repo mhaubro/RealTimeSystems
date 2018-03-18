@@ -932,13 +932,31 @@ system Bag, Sensor1, Sensor2, User1, Controller, FeedBelt1, FeedBelt2, Distribut
 			</comment>
 		</query>
 		<query>
-			<formula>Bag(0).Initial --&gt; Bag(0).Dest_A
+			<formula>Bag(0).Initial --&gt; Bag(0).Dest_B or Bag(0).Dest_A
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
 			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:t_id) Bag(i).C2 and !Bag(i).isBlack() imply fwd
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:t_id) Bag(i).C2 and Bag(i).isBlack() imply !fwd
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:t_id) Bag(i).C2 imply !stop2
 			</formula>
 			<comment>
 			</comment>
