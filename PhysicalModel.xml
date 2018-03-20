@@ -980,7 +980,7 @@ system Bag, Sensor1, Sensor2, User1, Controller, FeedBelt1, FeedBelt2, Distribut
     </system>
 	<queries>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).Dest_B imply Bag(i).isBlack()
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_B imply Bag(i).isBlack())
 			</formula>
 			<comment>
 			</comment>
