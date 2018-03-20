@@ -48,7 +48,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 			<committed/>
 		</location>
 		<location id="id5" x="-408" y="204" color="#ff0000">
-			<name x="-425" y="221">Error</name>
+			<name x="-382" y="212">Error</name>
 		</location>
 		<location id="id6" x="-238" y="-646" color="#a9a9a9">
 			<label kind="invariant" x="-306" y="-578">x&lt;=14</label>
@@ -130,11 +130,11 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		</location>
 		<location id="id30" x="-238" y="-238">
 			<name x="-314" y="-255">C2</name>
-			<label kind="invariant" x="-323" y="-238">x&lt;=28</label>
+			<label kind="invariant" x="-323" y="-238">x&lt;28</label>
 		</location>
 		<location id="id31" x="-578" y="-238">
 			<name x="-535" y="-256">C1</name>
-			<label kind="invariant" x="-544" y="-239">x&lt;=28</label>
+			<label kind="invariant" x="-544" y="-239">x&lt;28</label>
 		</location>
 		<location id="id32" x="-408" y="-68">
 			<name x="-416" y="17">F</name>
@@ -149,6 +149,26 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 			<label kind="invariant" x="-544" y="-408">x&lt;=24</label>
 		</location>
 		<init ref="id19"/>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-705" y="-238">fwd != dir</label>
+			<label kind="synchronisation" x="-705" y="-221">go!</label>
+			<nail x="-612" y="-204"/>
+			<nail x="-953" y="-204"/>
+			<nail x="-952" y="238"/>
+			<nail x="-408" y="238"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-186" y="-238">fwd != dir</label>
+			<label kind="synchronisation" x="-186" y="-221">go!</label>
+			<nail x="-204" y="-204"/>
+			<nail x="136" y="-204"/>
+			<nail x="136" y="238"/>
+			<nail x="-408" y="238"/>
+		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id7"/>
@@ -234,7 +254,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 			<target ref="id5"/>
 			<label kind="guard" x="-484" y="178">stop1</label>
 			<label kind="synchronisation" x="-509" y="178">go!</label>
-			<nail x="-918" y="-238"/>
+			<nail x="-919" y="-238"/>
 			<nail x="-918" y="204"/>
 		</transition>
 		<transition>
