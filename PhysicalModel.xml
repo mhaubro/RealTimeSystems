@@ -812,10 +812,11 @@ x:=0</label>
 bool dirA, destA;
 int done;
 
-bool isClear (int value) { return value &gt; 70; }
+bool isClear (int value) { return value &gt; 70 || value == 0; }
 bool isYellow(int value) { return value &gt;= 50 &amp;&amp; value &lt;= 60; }
 bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</declaration>
 		<location id="id50" x="-476" y="408">
+			<name x="-637" y="382">Follow_End_Feed_Belt</name>
 			<label kind="invariant" x="-578" y="433">z&lt;=wait_long_direction</label>
 		</location>
 		<location id="id51" x="-476" y="272">
@@ -899,9 +900,8 @@ wait_short_direction)</label>
 		<transition>
 			<source ref="id52"/>
 			<target ref="id64"/>
-			<label kind="synchronisation" x="85" y="221">S2_passivate!</label>
-			<label kind="assignment" x="85" y="187">destA:=isYellow(C2_val),
-C2_val:=0</label>
+			<label kind="synchronisation" x="85" y="204">S2_passivate!</label>
+			<label kind="assignment" x="85" y="187">destA:=isYellow(C2_val)</label>
 		</transition>
 		<transition>
 			<source ref="id53"/>
@@ -912,7 +912,6 @@ C2_val:=0</label>
 			<source ref="id66"/>
 			<target ref="id54"/>
 			<label kind="synchronisation" x="-178" y="-93">S2_activate!</label>
-			<label kind="assignment" x="-178" y="-68">C2_val:=75</label>
 		</transition>
 		<transition>
 			<source ref="id55"/>
