@@ -5,8 +5,10 @@
 const int N = 8;
 typedef int[0,N-1] t_id;
 
-chan B_forward, B_stop, 
+chan B_forward, B_stop,
+    B_reverse, B_backward, 
     A_forward, A_stop, 
+    A_reverse, A_backward,
     C_forward, C_reverse,
     C_stop, C_backward, 
     S1_activate, S1_passivate, 
@@ -19,7 +21,7 @@ urgent broadcast chan go;
 
 clock lastCheckinA, lastCheckinB;
 
-bool stop1, stop2, lightOn1, lightOn2, fwd;
+bool run1, run2, lightOn1, lightOn2, fwd;
 
 const int stopPos = 18;
 const int B_rest = 24 - stopPos;
@@ -256,7 +258,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id31"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-484" y="178">stop1</label>
+			<label kind="guard" x="-484" y="178">!run1</label>
 			<label kind="synchronisation" x="-509" y="178">go!</label>
 			<nail x="-918" y="-238"/>
 			<nail x="-918" y="204"/>
@@ -271,7 +273,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id25"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-484" y="178">stop1</label>
+			<label kind="guard" x="-484" y="178">!run1</label>
 			<label kind="synchronisation" x="-509" y="178">go!</label>
 			<nail x="-918" y="-544"/>
 			<nail x="-918" y="204"/>
@@ -279,7 +281,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-484" y="178">stop1</label>
+			<label kind="guard" x="-484" y="178">!run1</label>
 			<label kind="synchronisation" x="-509" y="178">go!</label>
 			<nail x="-918" y="-646"/>
 			<nail x="-918" y="204"/>
@@ -287,7 +289,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-484" y="178">stop1</label>
+			<label kind="guard" x="-484" y="178">!run1</label>
 			<label kind="synchronisation" x="-509" y="178">go!</label>
 			<nail x="-918" y="-850"/>
 			<nail x="-918" y="204"/>
@@ -295,7 +297,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id30"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-348" y="178">stop2</label>
+			<label kind="guard" x="-348" y="178">!run2</label>
 			<label kind="synchronisation" x="-373" y="178">go!</label>
 			<nail x="102" y="-238"/>
 			<nail x="102" y="204"/>
@@ -310,7 +312,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-348" y="178">stop2</label>
+			<label kind="guard" x="-348" y="178">!run2</label>
 			<label kind="synchronisation" x="-373" y="178">go!</label>
 			<nail x="102" y="-544"/>
 			<nail x="102" y="204"/>
@@ -318,7 +320,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-348" y="178">stop2</label>
+			<label kind="guard" x="-348" y="178">!run2</label>
 			<label kind="synchronisation" x="-373" y="178">go!</label>
 			<nail x="102" y="-646"/>
 			<nail x="102" y="204"/>
@@ -326,7 +328,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-348" y="178">stop2</label>
+			<label kind="guard" x="-348" y="178">!run2</label>
 			<label kind="synchronisation" x="-373" y="178">go!</label>
 			<nail x="102" y="-850"/>
 			<nail x="102" y="204"/>
@@ -391,7 +393,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id34"/>
-			<label kind="guard" x="-654" y="-348">!stop1</label>
+			<label kind="guard" x="-654" y="-348">run1</label>
 			<label kind="synchronisation" x="-680" y="-348">go!</label>
 			<label kind="assignment" x="-663" y="-331">x:=stopPos</label>
 			<nail x="-612" y="-306"/>
@@ -399,7 +401,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id12"/>
-			<label kind="guard" x="-654" y="-433">stop1</label>
+			<label kind="guard" x="-654" y="-433">!run1</label>
 			<label kind="synchronisation" x="-679" y="-433">go!</label>
 		</transition>
 		<transition>
@@ -427,7 +429,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id13"/>
 			<target ref="id33"/>
-			<label kind="guard" x="-170" y="-348">!stop2</label>
+			<label kind="guard" x="-170" y="-348">run2</label>
 			<label kind="synchronisation" x="-195" y="-348">go!</label>
 			<label kind="assignment" x="-187" y="-331">x:=stopPos</label>
 			<nail x="-204" y="-306"/>
@@ -435,7 +437,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id11"/>
-			<label kind="guard" x="-170" y="-433">stop2</label>
+			<label kind="guard" x="-170" y="-433">run2</label>
 			<label kind="synchronisation" x="-196" y="-433">go!</label>
 		</transition>
 		<transition>
@@ -1031,7 +1033,7 @@ C2_val:=0</label>
 		</transition>
 	</template>
 	<template>
-		<name>DistributionBelt</name>
+		<name>Belt</name>
 		<parameter>chan &amp;forward, chan &amp;backward, chan &amp;stop, chan &amp;reverse, bool &amp;fwd</parameter>
 		<location id="id69" x="-68" y="170">
 			<name x="-85" y="187">Stop</name>
@@ -1047,6 +1049,7 @@ C2_val:=0</label>
 			<source ref="id69"/>
 			<target ref="id69"/>
 			<label kind="synchronisation" x="-85" y="238">stop?</label>
+			<label kind="assignment" x="-85" y="255">fwd:=false</label>
 			<nail x="34" y="238"/>
 			<nail x="-170" y="238"/>
 		</transition>
@@ -1084,6 +1087,7 @@ C2_val:=0</label>
 			<source ref="id71"/>
 			<target ref="id69"/>
 			<label kind="synchronisation" x="-254" y="-17">stop?</label>
+			<label kind="assignment" x="-348" y="42">fwd:=false</label>
 			<nail x="-272" y="0"/>
 			<nail x="-272" y="170"/>
 		</transition>
@@ -1091,6 +1095,7 @@ C2_val:=0</label>
 			<source ref="id70"/>
 			<target ref="id69"/>
 			<label kind="synchronisation" x="85" y="-17">stop?</label>
+			<label kind="assignment" x="144" y="42">fwd:=false</label>
 			<nail x="136" y="0"/>
 			<nail x="136" y="170"/>
 		</transition>
@@ -1127,9 +1132,9 @@ C2_val:=0</label>
 Sensor1 = Sensor(S1_val, C1_val, lightOn1, S1_sense, S1_activate, S1_passivate);
 Sensor2 = Sensor(S2_val, C2_val, lightOn2, S2_sense, S2_activate, S2_passivate);
 
-FeedBelt1 = FeedBelt(A_forward, A_stop, stop1);
-FeedBelt2 = FeedBelt(B_forward, B_stop, stop2);
-DistributionBelt1 = DistributionBelt(C_forward, C_backward, C_stop, C_reverse, fwd);
+FeedBelt1 = Belt(A_forward, A_backward, A_stop, A_reverse, run1);
+FeedBelt2 = Belt(B_forward, B_backward, B_stop, B_reverse, run2);
+DistributionBelt1 = Belt(C_forward, C_backward, C_stop, C_reverse, fwd);
 
 User1 = User(110, checkIn2);
 User2 = UserBothCheckIns(40);
@@ -1138,7 +1143,7 @@ User3 = UserNoSep(lightOn2, checkIn2);
 Controller1 = Controller(3, 31, 0, 97+B_rest, 40+B_rest);
 
 // List one or more processes to be composed into a system.
-system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, DistributionBelt1;
+system Bag, Controller1, Sensor1, Sensor2, User3, FeedBelt1, FeedBelt2, DistributionBelt1;
     </system>
 	<queries>
 		<query>
@@ -1178,13 +1183,13 @@ system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, Distribu
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).C1 imply !stop1 and Bag(i).dir == fwd
+			<formula>A[] forall(i:t_id) Bag(i).C1 imply run1 and Bag(i).dir == fwd
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).C2 imply !stop2 and Bag(i).dir == fwd
+			<formula>A[] forall(i:t_id) Bag(i).C2 imply run2 and Bag(i).dir == fwd
 			</formula>
 			<comment>
 			</comment>
@@ -1238,7 +1243,7 @@ system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, Distribu
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).C2 imply !stop2
+			<formula>A[] forall(i:t_id) Bag(i).C2 imply run2
 			</formula>
 			<comment>
 			</comment>
