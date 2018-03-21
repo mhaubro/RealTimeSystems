@@ -7,7 +7,8 @@ typedef int[0,N-1] t_id;
 
 chan B_forward, B_stop, 
     A_forward, A_stop, 
-    C_forward, C_reverse, 
+    C_forward, C_reverse,
+    C_stop, C_backward, 
     S1_activate, S1_passivate, 
     S2_activate, S2_passivate, 
     S1_sense, S2_sense;
@@ -1031,33 +1032,91 @@ C2_val:=0</label>
 	</template>
 	<template>
 		<name>DistributionBelt</name>
-		<parameter>chan &amp;forward, chan &amp;reverse, bool &amp;fwd</parameter>
-		<location id="id69" x="34" y="0">
+		<parameter>chan &amp;forward, chan &amp;backward, chan &amp;stop, chan &amp;reverse, bool &amp;fwd</parameter>
+		<location id="id69" x="-68" y="170">
+			<name x="-85" y="187">Stop</name>
+		</location>
+		<location id="id70" x="34" y="0">
 			<name x="25" y="-51">Backward</name>
 		</location>
-		<location id="id70" x="-170" y="0">
+		<location id="id71" x="-170" y="0">
 			<name x="-204" y="-51">Forward</name>
 		</location>
-		<init ref="id70"/>
+		<init ref="id69"/>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-85" y="238">stop?</label>
+			<nail x="34" y="238"/>
+			<nail x="-170" y="238"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-178" y="-119">forward?</label>
+			<label kind="assignment" x="-68" y="-119">fwd:=true</label>
+			<nail x="272" y="-102"/>
+			<nail x="-408" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-178" y="-85">backward?</label>
+			<label kind="assignment" x="-68" y="-85">fwd:=false</label>
+			<nail x="-272" y="-68"/>
+			<nail x="136" y="-68"/>
+		</transition>
 		<transition>
 			<source ref="id70"/>
 			<target ref="id70"/>
-			<label kind="synchronisation" x="-323" y="-17">forward?</label>
-			<label kind="assignment" x="-323" y="0">fwd:=true</label>
-			<nail x="-238" y="-34"/>
+			<label kind="synchronisation" x="51" y="59">backward?</label>
+			<nail x="102" y="34"/>
+			<nail x="34" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-246" y="59">forward?</label>
 			<nail x="-238" y="34"/>
+			<nail x="-170" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-254" y="-17">stop?</label>
+			<nail x="-272" y="0"/>
+			<nail x="-272" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="85" y="-17">stop?</label>
+			<nail x="136" y="0"/>
+			<nail x="136" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-170" y="102">forward?</label>
+			<label kind="assignment" x="-170" y="119">fwd:=true</label>
 		</transition>
 		<transition>
 			<source ref="id69"/>
 			<target ref="id70"/>
+			<label kind="synchronisation" x="-25" y="102">backward?</label>
+			<label kind="assignment" x="-25" y="119">fwd:=false</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id71"/>
 			<label kind="synchronisation" x="-102" y="8">reverse?</label>
 			<label kind="assignment" x="-102" y="34">fwd:=true</label>
 			<nail x="0" y="34"/>
 			<nail x="-128" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id70"/>
-			<target ref="id69"/>
+			<source ref="id71"/>
+			<target ref="id70"/>
 			<label kind="synchronisation" x="-102" y="-59">reverse?</label>
 			<label kind="assignment" x="-102" y="-34">fwd:=false</label>
 			<nail x="-136" y="-34"/>
@@ -1070,7 +1129,7 @@ Sensor2 = Sensor(S2_val, C2_val, lightOn2, S2_sense, S2_activate, S2_passivate);
 
 FeedBelt1 = FeedBelt(A_forward, A_stop, stop1);
 FeedBelt2 = FeedBelt(B_forward, B_stop, stop2);
-DistributionBelt1 = DistributionBelt(C_forward, C_reverse, fwd);
+DistributionBelt1 = DistributionBelt(C_forward, C_backward, C_stop, C_reverse, fwd);
 
 User1 = User(110, checkIn2);
 User2 = UserBothCheckIns(40);
