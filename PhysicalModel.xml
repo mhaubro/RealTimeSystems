@@ -437,7 +437,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id11"/>
-			<label kind="guard" x="-170" y="-433">run2</label>
+			<label kind="guard" x="-170" y="-433">!run2</label>
 			<label kind="synchronisation" x="-196" y="-433">go!</label>
 		</transition>
 		<transition>
