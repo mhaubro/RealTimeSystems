@@ -808,7 +808,7 @@ bool isClear (int value) { return value &gt; 70 || value == 0; }
 bool isYellow(int value) { return value &gt;= 50 &amp;&amp; value &lt;= 60; }
 bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</declaration>
 		<location id="id49" x="-476" y="408">
-			<name x="-493" y="442">Follow_End_Dist_Belt</name>
+			<name x="-629" y="433">Wait_End_Dist_Belt</name>
 			<label kind="invariant" x="-467" y="365">z&lt;=wait_long_direction</label>
 		</location>
 		<location id="id50" x="-476" y="272">
