@@ -54,13 +54,13 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 			<name x="-382" y="212">Error</name>
 		</location>
 		<location id="id6" x="-238" y="-646" color="#a9a9a9">
-			<label kind="invariant" x="-306" y="-620">x&lt;=14</label>
+			<label kind="invariant" x="-323" y="-629">x&lt;=14</label>
 		</location>
 		<location id="id7" x="-238" y="-850" color="#a9a9a9">
 			<label kind="invariant" x="-306" y="-833">x&lt;=2</label>
 		</location>
 		<location id="id8" x="-578" y="-645" color="#a9a9a9">
-			<label kind="invariant" x="-544" y="-620">x&lt;=14</label>
+			<label kind="invariant" x="-544" y="-629">x&lt;=14</label>
 		</location>
 		<location id="id9" x="-578" y="-849" color="#a9a9a9">
 			<label kind="invariant" x="-544" y="-833">x&lt;=2</label>
@@ -173,12 +173,12 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id7"/>
-			<label kind="assignment" x="-221" y="-901">S2_val = 65</label>
+			<label kind="assignment" x="-323" y="-884">S2_val = 65</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id9"/>
-			<label kind="assignment" x="-680" y="-901">S1_val = 65</label>
+			<label kind="assignment" x="-544" y="-884">S1_val = 65</label>
 		</transition>
 		<transition>
 			<source ref="id15"/>
@@ -349,34 +349,34 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id8"/>
-			<label kind="guard" x="-748" y="-748">isBlack()</label>
-			<label kind="assignment" x="-748" y="-731">S1_val = 40</label>
+			<label kind="guard" x="-731" y="-748">isBlack()</label>
+			<label kind="assignment" x="-731" y="-731">S1_val = 40</label>
 			<nail x="-646" y="-782"/>
 			<nail x="-646" y="-680"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id24"/>
-			<label kind="guard" x="-306" y="-603">x==14</label>
-			<label kind="assignment" x="-221" y="-620">S2_val = 65</label>
+			<label kind="guard" x="-323" y="-612">x==14</label>
+			<label kind="assignment" x="-323" y="-595">S2_val = 65</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id6"/>
-			<label kind="guard" x="-348" y="-748">isBlack()</label>
-			<label kind="assignment" x="-348" y="-731">S2_val = 40</label>
+			<label kind="guard" x="-323" y="-748">isBlack()</label>
+			<label kind="assignment" x="-323" y="-731">S2_val = 40</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id25"/>
-			<label kind="guard" x="-544" y="-603">x==14</label>
-			<label kind="assignment" x="-671" y="-620">S1_val = 65</label>
+			<label kind="guard" x="-544" y="-612">x==14</label>
+			<label kind="assignment" x="-544" y="-595">S1_val = 65</label>
 		</transition>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id8"/>
-			<label kind="guard" x="-561" y="-748">!isBlack()</label>
-			<label kind="assignment" x="-561" y="-731">S1_val = 55</label>
+			<label kind="guard" x="-544" y="-748">!isBlack()</label>
+			<label kind="assignment" x="-544" y="-731">S1_val = 55</label>
 			<nail x="-578" y="-765"/>
 		</transition>
 		<transition>
@@ -594,13 +594,6 @@ dir:=fwd</label>
 			<name x="-331" y="-119">Passive</name>
 		</location>
 		<init ref="id36"/>
-		<transition>
-			<source ref="id36"/>
-			<target ref="id36"/>
-			<label kind="synchronisation" x="-340" y="-17">readValue?</label>
-			<nail x="-272" y="-17"/>
-			<nail x="-340" y="-17"/>
-		</transition>
 		<transition>
 			<source ref="id35"/>
 			<target ref="id35"/>
