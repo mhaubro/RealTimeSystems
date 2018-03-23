@@ -706,12 +706,6 @@ dir:=fwd</label>
 		</location>
 		<init ref="id42"/>
 		<transition>
-			<source ref="id39"/>
-			<target ref="id39"/>
-			<nail x="-68" y="-153"/>
-			<nail x="-136" y="-153"/>
-		</transition>
-		<transition>
 			<source ref="id40"/>
 			<target ref="id39"/>
 			<label kind="guard" x="-85" y="-76">id &gt;= N</label>
@@ -1240,7 +1234,19 @@ system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, DistBelt
     </system>
 	<queries>
 		<query>
-			<formula>E&lt;&gt; forall(i:t_id) Bag(i).Dest_A or Bag(i).Dest_B
+			<formula>A&lt;&gt; (forall(i:t_id) !Bag(i).isBlack() imply Bag(i).Dest_A)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (forall(i:t_id) Bag(i).isBlack() imply Bag(i).Dest_B)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (forall(i:t_id) Bag(i).Dest_A or Bag(i).Dest_B)
 			</formula>
 			<comment>
 			</comment>
