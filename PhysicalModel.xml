@@ -636,7 +636,8 @@ dir:=fwd</label>
 	<template>
 		<name>User</name>
 		<parameter>bool &amp;lightOn, chan &amp;checkIn[N]</parameter>
-		<declaration>int[0,N] id;</declaration>
+		<declaration>int[0,N] id;
+clock wait;</declaration>
 		<location id="id37" x="-102" y="-102">
 		</location>
 		<location id="id38" x="-102" y="-34">
@@ -645,6 +646,7 @@ dir:=fwd</label>
 		<location id="id39" x="-102" y="68">
 		</location>
 		<location id="id40" x="-238" y="68">
+			<label kind="invariant" x="-248" y="85">wait &lt; 100</label>
 		</location>
 		<init ref="id40"/>
 		<transition>
@@ -664,12 +666,12 @@ dir:=fwd</label>
 			<target ref="id40"/>
 			<label kind="guard" x="-178" y="42">!lightOn</label>
 			<label kind="synchronisation" x="-204" y="42">go!</label>
+			<label kind="assignment" x="-220" y="68">wait = 0</label>
 		</transition>
 		<transition>
 			<source ref="id40"/>
 			<target ref="id38"/>
 			<label kind="guard" x="-178" y="-59">lightOn</label>
-			<label kind="synchronisation" x="-204" y="-59">go!</label>
 			<nail x="-238" y="-34"/>
 		</transition>
 	</template>
