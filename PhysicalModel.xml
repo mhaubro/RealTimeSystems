@@ -198,7 +198,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-782" y="-467">x&gt;stopPos</label>
+			<label kind="guard" x="-790" y="-467">x&gt;stopPos</label>
 			<nail x="-714" y="-442"/>
 			<nail x="-918" y="-442"/>
 			<nail x="-918" y="204"/>
@@ -206,7 +206,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id11"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-68" y="-467">x&gt;stopPos</label>
+			<label kind="guard" x="-85" y="-467">x&gt;stopPos</label>
 			<nail x="-102" y="-442"/>
 			<nail x="102" y="-442"/>
 			<nail x="102" y="204"/>
@@ -262,7 +262,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-782" y="-433">x&lt;stopPos</label>
+			<label kind="guard" x="-790" y="-433">x&lt;stopPos</label>
 			<nail x="-918" y="-408"/>
 			<nail x="-918" y="204"/>
 		</transition>
@@ -301,7 +301,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id11"/>
 			<target ref="id5"/>
-			<label kind="guard" x="-68" y="-433">x&lt;stopPos</label>
+			<label kind="guard" x="-85" y="-433">x&lt;stopPos</label>
 			<nail x="102" y="-408"/>
 			<nail x="102" y="204"/>
 		</transition>
@@ -391,7 +391,7 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 			<target ref="id34"/>
 			<label kind="guard" x="-654" y="-348">run1</label>
 			<label kind="synchronisation" x="-680" y="-348">go!</label>
-			<label kind="assignment" x="-663" y="-331">x:=stopPos</label>
+			<label kind="assignment" x="-688" y="-331">x:=stopPos</label>
 			<nail x="-612" y="-306"/>
 		</transition>
 		<transition>
@@ -403,19 +403,19 @@ bool isBlack() { return id % 2 == 0; }</declaration>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id10"/>
-			<label kind="guard" x="-765" y="-365">x==stopPos</label>
+			<label kind="guard" x="-799" y="-365">x==stopPos</label>
 		</transition>
 		<transition>
 			<source ref="id11"/>
 			<target ref="id13"/>
-			<label kind="guard" x="-93" y="-365">x==stopPos</label>
+			<label kind="guard" x="-85" y="-365">x==stopPos</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
 			<target ref="id33"/>
 			<label kind="guard" x="-170" y="-348">run2</label>
 			<label kind="synchronisation" x="-195" y="-348">go!</label>
-			<label kind="assignment" x="-187" y="-331">x:=stopPos</label>
+			<label kind="assignment" x="-195" y="-331">x:=stopPos</label>
 			<nail x="-204" y="-306"/>
 		</transition>
 		<transition>
@@ -646,6 +646,13 @@ dir:=fwd</label>
 		</location>
 		<init ref="id38"/>
 		<transition>
+			<source ref="id38"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="-340" y="-17">readValue?</label>
+			<nail x="-272" y="-17"/>
+			<nail x="-340" y="-17"/>
+		</transition>
+		<transition>
 			<source ref="id37"/>
 			<target ref="id37"/>
 			<label kind="synchronisation" x="-119" y="-93">activate?</label>
@@ -839,7 +846,6 @@ int id;</declaration>
 		<declaration>clock y, z;
 
 bool dirA, destA;
-int done;
 
 bool isClear (int value) { return value &gt; 70 || value == 0; }
 bool isYellow(int value) { return value &gt;= 50 &amp;&amp; value &lt;= 60; }
@@ -1227,7 +1233,7 @@ User1 = User(lightOn2, checkIn2);
 User2 = UserWithSep(40, checkIn2);
 User3 = UserBothCheckIns(40);
 
-Controller1 = Controller(8, 20, 12, 108, 51);
+Controller1 = Controller(8, 16-8+stopPos, B_rest, 97+B_rest, 40+B_rest);
 
 // List one or more processes to be composed into a system.
 system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, DistBelt1;
