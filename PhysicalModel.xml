@@ -1080,7 +1080,7 @@ User3 = UserBothCheckIns(40);
 Controller1 = Controller(8, 8+stopPos, 36-2*stopPos, 97+B_rest, 40+B_rest);
 
 // List one or more processes to be composed into a system.
-system Bag, Controller1, Sensor1, Sensor2, User2, FeedBelt1, FeedBelt2, DistBelt1;
+system Bag, Controller1, Sensor1, Sensor2, User1, FeedBelt1, FeedBelt2, DistBelt1;
     </system>
 	<queries>
 		<query>
