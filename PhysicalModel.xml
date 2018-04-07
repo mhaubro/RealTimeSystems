@@ -6,14 +6,27 @@ const int N = 8;
 typedef int[0,N-1] t_id;
 typedef int[0,80]  t_sensor;
 
+// Bags
 chan checkIn1[N], checkIn2[N];
 
-chan B_forward, B_stop, B_reverse, B_backward, 
-     A_forward, A_stop, A_reverse, A_backward,
-     C_forward, C_stop, C_reverse, C_backward, 
-     S1_activate,  S2_activate,
-     S1_passivate, S2_passivate, 
-     S1_sense,     S2_sense;
+// Motor A
+chan A_forward, A_stop, A_reverse, A_backward;
+bool A_fwd, A_run;
+// Motor B
+chan B_forward, B_stop, B_reverse, B_backward;
+bool B_fwd, B_run;
+// Motor C
+chan C_forward, C_stop, C_reverse, C_backward;
+bool C_fwd, C_run;
+
+// Sensor S1
+chan S1_activate, S1_passivate, S1_readValue;
+bool S1_lightOn;
+t_sensor S1_input, S1_output;
+// Sensor S2
+chan S2_activate, S2_passivate, S2_readValue;
+bool S2_lightOn;
+t_sensor S2_input, S2_output;
 
 urgent broadcast chan go;
 
@@ -586,7 +599,7 @@ dir:=fwd</label>
 	</template>
 	<template>
 		<name>LightSensor</name>
-		<parameter>chan &amp;activate, chan &amp;passivate, chan &amp;readValue, bool &amp;light, t_sensor &amp;input, t_sensor &amp;output</parameter>
+		<parameter>chan &amp;activate, chan &amp;passivate, chan &amp;readValue, bool &amp;lightOn, t_sensor &amp;input, t_sensor &amp;output</parameter>
 		<location id="id35" x="-136" y="-68">
 			<name x="-153" y="-119">Active</name>
 		</location>
@@ -594,6 +607,14 @@ dir:=fwd</label>
 			<name x="-331" y="-119">Passive</name>
 		</location>
 		<init ref="id36"/>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="-340" y="-17">readValue?</label>
+			<label kind="assignment" x="-340" y="0">output:=input</label>
+			<nail x="-272" y="-17"/>
+			<nail x="-340" y="-17"/>
+		</transition>
 		<transition>
 			<source ref="id35"/>
 			<target ref="id35"/>
@@ -612,7 +633,7 @@ dir:=fwd</label>
 			<source ref="id35"/>
 			<target ref="id36"/>
 			<label kind="synchronisation" x="-255" y="-60">passivate?</label>
-			<label kind="assignment" x="-255" y="-34">light:=false</label>
+			<label kind="assignment" x="-263" y="-34">lightOn:=false</label>
 			<nail x="-170" y="-34"/>
 			<nail x="-272" y="-34"/>
 		</transition>
@@ -620,7 +641,7 @@ dir:=fwd</label>
 			<source ref="id36"/>
 			<target ref="id35"/>
 			<label kind="synchronisation" x="-246" y="-127">activate?</label>
-			<label kind="assignment" x="-255" y="-102">light:=true</label>
+			<label kind="assignment" x="-263" y="-102">lightOn:=true</label>
 			<nail x="-272" y="-102"/>
 			<nail x="-170" y="-102"/>
 		</transition>
@@ -835,7 +856,7 @@ bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</d
 			<source ref="id53"/>
 			<target ref="id53"/>
 			<label kind="guard" x="-110" y="-144">y==1</label>
-			<label kind="synchronisation" x="-76" y="-144">S2_sense!</label>
+			<label kind="synchronisation" x="-76" y="-144">S2_readValue!</label>
 			<label kind="assignment" x="-84" y="-119">y:=0</label>
 			<nail x="-102" y="-119"/>
 			<nail x="-34" y="-119"/>
@@ -875,7 +896,7 @@ bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</d
 		<transition>
 			<source ref="id52"/>
 			<target ref="id51"/>
-			<label kind="synchronisation" x="85" y="119">S2_sense!</label>
+			<label kind="synchronisation" x="85" y="119">S2_readValue!</label>
 		</transition>
 		<transition>
 			<source ref="id65"/>
@@ -962,109 +983,113 @@ bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</d
 	</template>
 	<template>
 		<name>Motor</name>
-		<parameter>chan &amp;forward, chan &amp;backward, chan &amp;stop, chan &amp;reverse, bool &amp;fwd</parameter>
+		<parameter>chan &amp;forward, chan &amp;backward, chan &amp;stop, chan &amp;reverse, bool &amp;fwd, bool &amp;run</parameter>
 		<location id="id66" x="-136" y="0">
 			<name x="-153" y="-51">Stop</name>
 		</location>
-		<location id="id67" x="0" y="0">
-			<name x="8" y="-51">Backward</name>
+		<location id="id67" x="34" y="0">
+			<name x="42" y="-51">Backward</name>
 		</location>
-		<location id="id68" x="-272" y="0">
-			<name x="-331" y="-51">Forward</name>
+		<location id="id68" x="-306" y="0">
+			<name x="-365" y="-51">Forward</name>
 		</location>
 		<init ref="id66"/>
 		<transition>
 			<source ref="id66"/>
 			<target ref="id66"/>
-			<label kind="synchronisation" x="-153" y="34">stop?</label>
-			<nail x="-110" y="59"/>
-			<nail x="-161" y="59"/>
+			<label kind="synchronisation" x="-153" y="42">stop?</label>
+			<nail x="-102" y="68"/>
+			<nail x="-170" y="68"/>
 		</transition>
 		<transition>
 			<source ref="id67"/>
 			<target ref="id68"/>
-			<label kind="synchronisation" x="-170" y="59">forward?</label>
-			<label kind="assignment" x="-170" y="102">fwd:=true</label>
-			<nail x="0" y="102"/>
-			<nail x="-272" y="102"/>
+			<label kind="synchronisation" x="-195" y="110">forward?</label>
+			<label kind="assignment" x="-119" y="110">fwd:=true</label>
+			<nail x="34" y="136"/>
+			<nail x="-306" y="136"/>
 		</transition>
 		<transition>
 			<source ref="id68"/>
 			<target ref="id67"/>
-			<label kind="synchronisation" x="-170" y="-144">backward?</label>
-			<label kind="assignment" x="-170" y="-102">fwd:=false</label>
-			<nail x="-272" y="-102"/>
-			<nail x="0" y="-102"/>
+			<label kind="synchronisation" x="-195" y="-136">backward?</label>
+			<label kind="assignment" x="-119" y="-136">fwd:=false</label>
+			<nail x="-306" y="-136"/>
+			<nail x="34" y="-136"/>
 		</transition>
 		<transition>
 			<source ref="id67"/>
 			<target ref="id67"/>
-			<label kind="synchronisation" x="17" y="-25">backward?</label>
-			<nail x="68" y="0"/>
-			<nail x="34" y="34"/>
+			<label kind="synchronisation" x="51" y="-25">backward?</label>
+			<nail x="102" y="0"/>
+			<nail x="68" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id68"/>
 			<target ref="id68"/>
-			<label kind="synchronisation" x="-340" y="-25">forward?</label>
-			<nail x="-340" y="0"/>
-			<nail x="-306" y="34"/>
+			<label kind="synchronisation" x="-374" y="-25">forward?</label>
+			<nail x="-374" y="0"/>
+			<nail x="-340" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id68"/>
 			<target ref="id66"/>
-			<label kind="synchronisation" x="-221" y="8">stop?</label>
-			<label kind="assignment" x="-229" y="34">fwd:=false</label>
-			<nail x="-238" y="34"/>
+			<label kind="synchronisation" x="-229" y="8">stop?</label>
+			<label kind="assignment" x="-246" y="34">run:=false</label>
+			<nail x="-272" y="34"/>
 			<nail x="-170" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id67"/>
 			<target ref="id66"/>
-			<label kind="synchronisation" x="-85" y="8">stop?</label>
-			<nail x="-34" y="34"/>
+			<label kind="synchronisation" x="-59" y="8">stop?</label>
+			<label kind="assignment" x="-76" y="34">run:=false</label>
+			<nail x="0" y="34"/>
 			<nail x="-102" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id66"/>
 			<target ref="id68"/>
-			<label kind="synchronisation" x="-229" y="-59">forward?</label>
-			<label kind="assignment" x="-229" y="-34">fwd:=true</label>
+			<label kind="synchronisation" x="-246" y="-59">forward?</label>
+			<label kind="assignment" x="-246" y="-34">fwd:=true,
+run:=true</label>
 			<nail x="-170" y="-34"/>
-			<nail x="-238" y="-34"/>
+			<nail x="-272" y="-34"/>
 		</transition>
 		<transition>
 			<source ref="id66"/>
 			<target ref="id67"/>
-			<label kind="synchronisation" x="-102" y="-59">backward?</label>
+			<label kind="synchronisation" x="-76" y="-59">backward?</label>
+			<label kind="assignment" x="-76" y="-34">fwd:=false,
+run:=true</label>
 			<nail x="-102" y="-34"/>
-			<nail x="-34" y="-34"/>
+			<nail x="0" y="-34"/>
 		</transition>
 		<transition>
 			<source ref="id67"/>
 			<target ref="id68"/>
-			<label kind="synchronisation" x="-170" y="76">reverse?</label>
-			<label kind="assignment" x="-170" y="102">fwd:=true</label>
-			<nail x="0" y="102"/>
-			<nail x="-272" y="102"/>
+			<label kind="synchronisation" x="-195" y="76">reverse?</label>
+			<label kind="assignment" x="-119" y="76">fwd:=true</label>
+			<nail x="34" y="102"/>
+			<nail x="-306" y="102"/>
 		</transition>
 		<transition>
 			<source ref="id68"/>
 			<target ref="id67"/>
-			<label kind="synchronisation" x="-170" y="-127">reverse?</label>
-			<label kind="assignment" x="-170" y="-102">fwd:=false</label>
-			<nail x="-272" y="-102"/>
-			<nail x="0" y="-102"/>
+			<label kind="synchronisation" x="-195" y="-102">reverse?</label>
+			<label kind="assignment" x="-119" y="-102">fwd:=false</label>
+			<nail x="-306" y="-102"/>
+			<nail x="34" y="-102"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
 
-Sensor1 = LightSensor(S1_activate, S1_passivate, S1_sense, lightOn1, S1_val, C1_val);
-Sensor2 = LightSensor(S2_activate, S2_passivate, S2_sense, lightOn2, S2_val, C2_val);
+FeedBelt1 = Motor(A_forward, A_backward, A_stop, A_reverse, A_fwd, A_run);
+FeedBelt2 = Motor(B_forward, B_backward, B_stop, B_reverse, B_fwd, B_run);
+DistBelt1 = Motor(C_forward, C_backward, C_stop, C_reverse, C_fwd, C_run);
 
-FeedBelt1 = Motor(A_forward, A_backward, A_stop, A_reverse, run1);
-FeedBelt2 = Motor(B_forward, B_backward, B_stop, B_reverse, run2);
-DistBelt1 = Motor(C_forward, C_backward, C_stop, C_reverse, fwd);
+Sensor1 = LightSensor(S1_activate, S1_passivate, S1_readValue, lightOn1, S1_val, C1_val);
+Sensor2 = LightSensor(S2_activate, S2_passivate, S2_readValue, lightOn2, S2_val, C2_val);
 
 User1 = User(lightOn2, checkIn2);
 User2 = UserWithSep(150, checkIn2);
