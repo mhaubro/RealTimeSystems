@@ -386,7 +386,8 @@ const int DL_startShort = DL_longWait - DL_shortWait;</declaration>
 			<source ref="id25"/>
 			<target ref="id23"/>
 			<label kind="synchronisation" x="-323" y="-17">DL_lockShort?</label>
-			<label kind="assignment" x="-323" y="0">DL_locked:=true</label>
+			<label kind="assignment" x="-323" y="0">DL_locked:=true, 
+x:=DL_startShort</label>
 		</transition>
 		<transition>
 			<source ref="id24"/>
