@@ -764,8 +764,8 @@ void update(int value) { S_input[id] = value; }</declaration>
 			<name x="-153" y="-340">Ready</name>
 		</location>
 		<location id="id56" x="0" y="0">
-			<name x="-85" y="-93">A_3</name>
-			<label kind="invariant" x="-93" y="-76">x&lt;=16</label>
+			<name x="-68" y="17">A_3</name>
+			<label kind="invariant" x="-76" y="34">x&lt;=16</label>
 		</location>
 		<location id="id57" x="0" y="-102">
 			<name x="42" y="-93">A_2</name>
@@ -802,8 +802,8 @@ update(65)</label>
 		<transition>
 			<source ref="id56"/>
 			<target ref="id55"/>
-			<label kind="guard" x="-93" y="-59">x&gt;=16</label>
-			<label kind="assignment" x="-93" y="-42">update(75)</label>
+			<label kind="guard" x="-76" y="51">x&gt;=16</label>
+			<label kind="assignment" x="-76" y="68">update(75)</label>
 			<nail x="-136" y="0"/>
 		</transition>
 		<transition>
@@ -891,7 +891,6 @@ hasNotified:=false</label>
 	<template>
 		<name>User</name>
 		<parameter>U_id id</parameter>
-		<declaration>clock x;</declaration>
 		<location id="id61" x="-34" y="-34">
 		</location>
 		<location id="id62" x="-102" y="-34">
@@ -900,7 +899,6 @@ hasNotified:=false</label>
 		<location id="id63" x="-102" y="68">
 		</location>
 		<location id="id64" x="-238" y="68">
-			<label kind="invariant" x="-280" y="93">x &lt;= MAX_HANDLING_TIME</label>
 		</location>
 		<init ref="id64"/>
 		<transition>
@@ -912,8 +910,7 @@ hasNotified:=false</label>
 		<transition>
 			<source ref="id62"/>
 			<target ref="id61"/>
-			<label kind="guard" x="-85" y="-102">bag &gt;= BAGS</label>
-			<label kind="assignment" x="-85" y="-85">bag := 0</label>
+			<label kind="guard" x="-110" y="-127">bag &gt;= BAGS</label>
 			<nail x="-102" y="-102"/>
 			<nail x="-34" y="-102"/>
 		</transition>
@@ -929,12 +926,12 @@ hasNotified:=false</label>
 			<target ref="id64"/>
 			<label kind="guard" x="-178" y="42">!S_lightOn[id]</label>
 			<label kind="synchronisation" x="-204" y="42">go!</label>
-			<label kind="assignment" x="-178" y="68">x:=0</label>
 		</transition>
 		<transition>
 			<source ref="id64"/>
 			<target ref="id62"/>
-			<label kind="guard" x="-204" y="-59">S_lightOn[id]</label>
+			<label kind="guard" x="-204" y="-51">S_lightOn[id]</label>
+			<label kind="synchronisation" x="-204" y="-34">go!</label>
 			<nail x="-238" y="-34"/>
 		</transition>
 	</template>
