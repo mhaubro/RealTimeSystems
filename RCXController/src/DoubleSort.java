@@ -1,67 +1,96 @@
 import java.lang.System;
 import josx.platform.rcx.*;
 
-class Feeder2 extends Thread {
- 
-  static final int BLOCKED = 70;
-  static final int YELLOW  = 60;
-  static final int BLACK   = 45;
-  
-  public void run() {
-    try {
-      boolean dirA;    // Current direction is towards A
-      boolean destA;   // Required destination is A
-    
-      Poll e = new Poll();
-      int done = (int) System.currentTimeMillis(); // When last bag is through
-      
-      Motor.B.forward();
-      Motor.C.forward();  dirA = true;
+class Feeder extends Thread {
 
-      while (true) {
-        // Await arrival of a bag
-        Sensor.S2.activate();
-        while(Sensor.S2.readValue() > BLOCKED) { e.poll(Poll.SENSOR2_MASK,0); }
-	  
-        Thread.sleep(800);           // Wait for colour to be valid
+	static final int BLOCKED = 70;
+	static final int YELLOW = 60;
+	static final int BLACK = 45;
 
-        destA = (Sensor.S2.readValue() > BLACK);   // Determine destination
-        Sensor.S2.passivate();
+	final int id;
 
-        Thread.sleep(2000);          // Advance beyond sensor 
-        if (dirA != destA) {         // Decide whether to stop or not
-          Motor.B.stop();
-          int now = (int) System.currentTimeMillis();
-          if (now < done) Thread.sleep(done-now);
-          Motor.C.reverseDirection();
-          dirA = destA;
-          Motor.B.forward();
-        }
+	public Feeder(int id) {
+		this.id = id;
+	}
 
-        done = ((int) System.currentTimeMillis()) + 6000;  
-        if (dirA) done = done + 6000;       // Extra time for long path
+	public void run() {
+		try {
+			boolean dirA; // Current direction is towards A
+			boolean destA; // Required destination is A
+			boolean f1 = id == 1;
+			
+			Motor 		myMotor 	 = f1 ? Motor.A : Motor.B;
+			Sensor 		mySensor 	 = f1 ? Sensor.S1 : Sensor.S2;
+			int 		myPollMask 	 = f1 ? Poll.SENSOR1_MASK : Poll.SENSOR2_MASK;
+			SimpleLock 	mySimpleLock = f1 ? SimpleLock.SL1 : SimpleLock.SL2;
+			SimpleLock  oppositeLock = f1 ? SimpleLock.SL2 : SimpleLock.SL1;
 
-        Thread.sleep(1200);                 // Follow to end of feed belt
-       }
-    } catch (Exception e) { }
-  }
+			Poll e = new Poll();
+			
+			Motor.C.forward();
+			myMotor.forward();
+
+			while (true) {
+				// Await arrival of a bag
+				mySensor.activate();
+				while (mySensor.readValue() > BLOCKED) { e.poll(myPollMask, 0); }
+
+				Thread.sleep(800); // Wait for colour to be valid
+
+				destA = (mySensor.readValue() > BLACK); // Determine destination
+				mySensor.passivate();
+
+				Thread.sleep(2600); // Advance beyond sensor
+				dirA = Motor.C.isForward();
+				if (dirA != destA) { // Decide whether to stop or not
+					myMotor.stop();
+					synchronized (DirectionLock.DL) {
+						while (DirectionLock.DL.isLocked() 
+								&& Motor.C.isForward() != destA)
+							DirectionLock.DL.wait(); 
+						synchronized (Motor.C) {
+							if (Motor.C.isForward() != destA)
+								Motor.C.reverseDirection();
+						}
+					}
+					myMotor.forward();
+				}
+				
+				if (destA == f1) { // Short path
+					if (mySimpleLock.isLocked()) {
+						myMotor.stop();
+						synchronized (mySimpleLock) {
+							while (mySimpleLock.isLocked())
+								mySimpleLock.wait();
+						}
+						myMotor.forward();
+					}
+					DirectionLock.DL.lockShort();
+				}
+				else { // Long path 
+					DirectionLock.DL.lockLong();
+					Thread.sleep(2300); // Wait before locking intersection
+					oppositeLock.lock();
+				}
+			}
+		} catch (Exception e) {
+		}
+	}
 }
 
 public class DoubleSort {
 
-  static final int BELT_SPEED = 3;          // Do not change
+	static final int BELT_SPEED = 3; // Do not change
 
-  public static void main (String[] arg) {
-      Motor.A.setPower(BELT_SPEED);  Motor.A.forward();
-      Motor.B.setPower(BELT_SPEED);
-      Motor.C.setPower(BELT_SPEED);
-      
-      Thread f2 = new Feeder2();  f2.start();
+	public static void main(String[] arg) {
+		Motor.A.setPower(BELT_SPEED);
+		Motor.B.setPower(BELT_SPEED);
+		Motor.C.setPower(BELT_SPEED);
 
-      try{ Button.RUN.waitForPressAndRelease();} catch (Exception e) {}
-      System.exit(0);
-  }
+		Thread f1 = new Feeder(1); f1.start();
+		Thread f2 = new Feeder(2); f2.start();
+
+		try { Button.RUN.waitForPressAndRelease(); } catch (Exception e) {}
+		System.exit(0);
+	}
 }
-
-
-
