@@ -1507,6 +1507,19 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 			</comment>
 		</query>
 		<query>
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).x &gt;= 10
+			</formula>
+			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 24 + 24 +10 = 58
+			</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).x &lt;= 120
+			</formula>
+			<comment>Query to verify that each individual bag will not exceed a handling time of 120. The worst case handling time will be 936, which can be determined by assuming that all bags needs to follow the long path to their destination. 
+If one bag has a different color than the rest and one of the other manages to pass the sensor before it then the processing time for 8 * 120 - the travel time to past the stop position (24) = 936
+			</comment>
+		</query>
+		<query>
 			<formula>A[] Bag(0).A1 + Bag(0).A2 + Bag(0).B1 + Bag(0).B2 + Bag(0).C1 + Bag(0).C2 + Bag(0).D1 + Bag(0).D2 + Bag(0).E1 + Bag(0).E2 + Bag(0).F + 
 Bag(1).A1 + Bag(1).A2 + Bag(1).B1 + Bag(1).B2 + Bag(1).C1 + Bag(1).C2 + Bag(1).D1 + Bag(1).D2 + Bag(1).E1 + Bag(1).E2 + Bag(1).F + 
 Bag(2).A1 + Bag(2).A2 + Bag(2).B1 + Bag(2).B2 + Bag(2).C1 + Bag(2).C2 + Bag(2).D1 + Bag(2).D2 + Bag(2).E1 + Bag(2).E2 + Bag(2).F +
