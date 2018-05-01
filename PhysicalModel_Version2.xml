@@ -153,6 +153,7 @@ updateColors()</label>
 		<name>Bag</name>
 		<parameter>t_id id</parameter>
 		<declaration>clock x;
+clock handling;
 bool dir;
 
 bool isBlack() { return isblack[id]; }
@@ -407,13 +408,15 @@ x:=0</label>
 			<source ref="id22"/>
 			<target ref="id24"/>
 			<label kind="synchronisation" x="-340" y="-510">A_leave[1]?</label>
-			<label kind="assignment" x="-340" y="-493">x:=0</label>
+			<label kind="assignment" x="-340" y="-493">x:=0,
+handling:=0</label>
 		</transition>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id25"/>
 			<label kind="synchronisation" x="-544" y="-510">A_leave[0]?</label>
-			<label kind="assignment" x="-544" y="-493">x:=0</label>
+			<label kind="assignment" x="-544" y="-493">x:=0,
+handling:=0</label>
 		</transition>
 		<transition>
 			<source ref="id24"/>
@@ -1507,13 +1510,13 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).x &gt;= 10
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &gt;= 58
 			</formula>
 			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 24 + 24 +10 = 58
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).x &lt;= 120
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &lt;= 936
 			</formula>
 			<comment>Query to verify that each individual bag will not exceed a handling time of 120. The worst case handling time will be 936, which can be determined by assuming that all bags needs to follow the long path to their destination. 
 If one bag has a different color than the rest and one of the other manages to pass the sensor before it then the processing time for 8 * 120 - the travel time to past the stop position (24) = 936
