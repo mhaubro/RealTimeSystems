@@ -1506,5 +1506,19 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 			<comment>Bags must not be be simultaneously present in sections c) and d) belonging to the same feed belt to avoid collisions.
 			</comment>
 		</query>
+		<query>
+			<formula>A[] Bag(0).A1 + Bag(0).A2 + Bag(0).B1 + Bag(0).B2 + Bag(0).C1 + Bag(0).C2 + Bag(0).D1 + Bag(0).D2 + Bag(0).E1 + Bag(0).E2 + Bag(0).F + 
+Bag(1).A1 + Bag(1).A2 + Bag(1).B1 + Bag(1).B2 + Bag(1).C1 + Bag(1).C2 + Bag(1).D1 + Bag(1).D2 + Bag(1).E1 + Bag(1).E2 + Bag(1).F + 
+Bag(2).A1 + Bag(2).A2 + Bag(2).B1 + Bag(2).B2 + Bag(2).C1 + Bag(2).C2 + Bag(2).D1 + Bag(2).D2 + Bag(2).E1 + Bag(2).E2 + Bag(2).F +
+Bag(3).A1 + Bag(3).A2 + Bag(3).B1 + Bag(3).B2 + Bag(3).C1 + Bag(3).C2 + Bag(3).D1 + Bag(3).D2 + Bag(3).E1 + Bag(3).E2 + Bag(3).F +
+Bag(4).A1 + Bag(4).A2 + Bag(4).B1 + Bag(4).B2 + Bag(4).C1 + Bag(4).C2 + Bag(4).D1 + Bag(4).D2 + Bag(4).E1 + Bag(4).E2 + Bag(4).F +
+Bag(5).A1 + Bag(5).A2 + Bag(5).B1 + Bag(5).B2 + Bag(5).C1 + Bag(5).C2 + Bag(5).D1 + Bag(5).D2 + Bag(5).E1 + Bag(5).E2 + Bag(5).F +
+Bag(6).A1 + Bag(6).A2 + Bag(6).B1 + Bag(6).B2 + Bag(6).C1 + Bag(6).C2 + Bag(6).D1 + Bag(6).D2 + Bag(6).E1 + Bag(6).E2 + Bag(6).F +
+Bag(7).A1 + Bag(7).A2 + Bag(7).B1 + Bag(7).B2 + Bag(7).C1 + Bag(7).C2 + Bag(7).D1 + Bag(7).D2 + Bag(7).E1 + Bag(7).E2 + Bag(7).F &lt;= 5
+			</formula>
+			<comment>Query to determine the maximum amount bags that can be on both the feedbelts and the distribution belt. Defined for only 8 bags. 
+Maximum amount of bags is 5, since there can be one bag at location A1, one at A2, one at C1, one at C2 and one somewhere on the distribution belt
+			</comment>
+		</query>
 	</queries>
 </nta>
