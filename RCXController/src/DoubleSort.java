@@ -8,9 +8,15 @@ class Feeder extends Thread {
 	static final int BLACK = 45;
 
 	final int id;
+	
+	final DirectionLock dirLock;
+	final SimpleLock mySimpleLock, oppositeLock;
 
-	public Feeder(int id) {
+	public Feeder(int id, DirectionLock dirLock, SimpleLock mySimpleLock, SimpleLock oppositeLock) {
 		this.id = id;
+		this.dirLock = dirLock;
+		this.mySimpleLock = mySimpleLock;
+		this.oppositeLock = oppositeLock;
 	}
 
 	public void run() {
@@ -22,8 +28,6 @@ class Feeder extends Thread {
 			Motor 		myMotor 	 = f1 ? Motor.A : Motor.B;
 			Sensor 		mySensor 	 = f1 ? Sensor.S1 : Sensor.S2;
 			int 		myPollMask 	 = f1 ? Poll.SENSOR1_MASK : Poll.SENSOR2_MASK;
-			SimpleLock 	mySimpleLock = f1 ? SimpleLock.SL1 : SimpleLock.SL2;
-			SimpleLock  oppositeLock = f1 ? SimpleLock.SL2 : SimpleLock.SL1;
 
 			Poll e = new Poll();
 			
@@ -44,14 +48,12 @@ class Feeder extends Thread {
 				dirA = Motor.C.isForward();
 				if (dirA != destA) { // Decide whether to stop or not
 					myMotor.stop();
-					synchronized (DirectionLock.DL) {
-						while (DirectionLock.DL.isLocked() 
+					synchronized (dirLock) {
+						while (dirLock.isLocked() 
 								&& Motor.C.isForward() != destA)
-							DirectionLock.DL.wait(); 
-						synchronized (Motor.C) {
-							if (Motor.C.isForward() != destA)
-								Motor.C.reverseDirection();
-						}
+							dirLock.wait(); 
+						if (Motor.C.isForward() != destA)
+							Motor.C.reverseDirection();
 					}
 					myMotor.forward();
 				}
@@ -65,10 +67,10 @@ class Feeder extends Thread {
 						}
 						myMotor.forward();
 					}
-					DirectionLock.DL.lockShort();
+					dirLock.lockShort();
 				}
 				else { // Long path 
-					DirectionLock.DL.lockLong();
+					dirLock.lockLong();
 					Thread.sleep(2300); // Wait before locking intersection
 					oppositeLock.lock();
 				}
@@ -86,9 +88,13 @@ public class DoubleSort {
 		Motor.A.setPower(BELT_SPEED);
 		Motor.B.setPower(BELT_SPEED);
 		Motor.C.setPower(BELT_SPEED);
+		
+		DirectionLock DL = new DirectionLock();
+		SimpleLock SL1 = new SimpleLock(1);
+		SimpleLock SL2 = new SimpleLock(2);
 
-		Thread f1 = new Feeder(1); f1.start();
-		Thread f2 = new Feeder(2); f2.start();
+		Thread f1 = new Feeder(1, DL, SL1, SL2); f1.start();
+		Thread f2 = new Feeder(2, DL, SL2, SL1); f2.start();
 
 		try { Button.RUN.waitForPressAndRelease(); } catch (Exception e) {}
 		System.exit(0);

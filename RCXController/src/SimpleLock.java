@@ -5,9 +5,6 @@ public class SimpleLock implements TimerListener {
 	private Timer 	timer;
 	private boolean locked;
 
-	public static SimpleLock SL1 = new SimpleLock(1);
-	public static SimpleLock SL2 = new SimpleLock(2);
-
 	int no;
 
 	public SimpleLock(int _no) {

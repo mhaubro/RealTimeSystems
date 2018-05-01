@@ -8,8 +8,6 @@ public class DirectionLock implements TimerListener {
 	private static final int longDelay = 10300;
 	private static final int shortDelay = 4600;
 
-	public static DirectionLock DL = new DirectionLock();
-
 	public DirectionLock() {
 		timer = new Timer(this);
 	}
@@ -32,8 +30,7 @@ public class DirectionLock implements TimerListener {
 	public synchronized void timedOut() {
 		timer.stop();
 		locked = false;
-		DirectionLock.DL.notifyAll();
-		System.out.println("TimedOut");
+		notifyAll();
 	}
 
 }

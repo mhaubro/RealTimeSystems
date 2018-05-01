@@ -7,7 +7,7 @@ public class Timer {
 	private TimerListener 	myListener;
 	private Thread 			myThread;
 	private int 			delay;
-	private long 			start;
+	private int 			start;
 
 	/**
 	 * Create a Timer object. Every theDelay milliseconds the el.timedOut() function
@@ -35,7 +35,7 @@ public class Timer {
 					
 					synchronized (Timer.this) {
 						if (delay > 0) {
-							long end = System.currentTimeMillis();
+							int end = (int) System.currentTimeMillis();
 							delay -= Math.min((end - start), delay);
 						}
 						if (delay == 0) myListener.timedOut();
@@ -44,12 +44,13 @@ public class Timer {
 			}
 		};
 	}
+	
 	public synchronized void stop() {
 		delay = -1;
 	}
 
 	public synchronized void start(int _delay) {
-		start = System.currentTimeMillis();
+		start = (int) System.currentTimeMillis();
 		delay = Math.max(delay, _delay);
 		if (!myThread.isAlive())
 			myThread.start();
