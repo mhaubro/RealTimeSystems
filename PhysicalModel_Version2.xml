@@ -1217,5 +1217,11 @@ Maximum amount of bags is 5, since there can be one bag at location A1, one at A
 			<comment>Query checks that the motor for feed belt 2 does not reach the Backward state. Motor(0) represents feed belt 2.
 			</comment>
 		</query>
+		<query>
+			<formula>Motor(2).Stop --&gt; ((Motor(2).Forward or Motor(2).Backward) and not Motor(2).Stop)
+			</formula>
+			<comment>This query checks ensures that the distribution belt (Motor 2) does not return to the Stop after being activated.
+			</comment>
+		</query>
 	</queries>
 </nta>
