@@ -254,14 +254,16 @@ bool isYellow() { return !isBlack(); }</declaration>
 			<target ref="id22"/>
 			<label kind="synchronisation" x="-340" y="-595">A_enter[1]!</label>
 			<label kind="assignment" x="-340" y="-578">A_bag[1]:=id,
-x:=0</label>
+x:=0,
+handling:=0</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id23"/>
 			<label kind="synchronisation" x="-544" y="-595">A_enter[0]!</label>
 			<label kind="assignment" x="-544" y="-578">A_bag[0]:=id,
-x:=0</label>
+x:=0,
+handling:=0</label>
 		</transition>
 		<transition>
 			<source ref="id19"/>
@@ -385,15 +387,13 @@ x:=0</label>
 			<source ref="id22"/>
 			<target ref="id24"/>
 			<label kind="synchronisation" x="-340" y="-510">A_leave[1]?</label>
-			<label kind="assignment" x="-340" y="-493">x:=0,
-handling:=0</label>
+			<label kind="assignment" x="-340" y="-493">x:=0</label>
 		</transition>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id25"/>
 			<label kind="synchronisation" x="-544" y="-510">A_leave[0]?</label>
-			<label kind="assignment" x="-544" y="-493">x:=0,
-handling:=0</label>
+			<label kind="assignment" x="-544" y="-493">x:=0</label>
 		</transition>
 		<transition>
 			<source ref="id24"/>
@@ -1157,16 +1157,19 @@ M_run[id]:=true</label>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &gt;= 58
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &gt;= 74
 			</formula>
-			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 2.4 + 2.4 +1.0 = 5.8 seconds
+			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 1.6+2.4 + 2.4 +1.0 = 5.8 seconds
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &lt;= 936
+			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &lt;= 612
 			</formula>
-			<comment>Query to verify that each individual bag will not exceed a handling time of 12.0 seconds. The worst case handling time will be 93.6 seconds, which can be determined by assuming that all bags needs to follow the long path to their destination. 
-If one bag has a different color than the rest and one of the other manages to pass the sensor before it then the processing time for 8 * 12.0 - the travel time to past the stop position (2.4) = 93.6 seconds
+			<comment>Query to verify that each individual bag will not exceed a handling time of 61.2. 
+Formula:
+total_time + (total_time - stop_position) + 6*(max_wait+await_valid_color+advance_beyond_sensor+enter_intersection_time)
+Values inserted:
+13.7+(13.7-3.4)+6*(0.5+0.8+2.6+2.3)=61.2
 			</comment>
 		</query>
 		<query>
