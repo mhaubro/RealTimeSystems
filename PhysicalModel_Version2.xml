@@ -1037,39 +1037,7 @@ M_run[id]:=true</label>
 			<nail x="68" y="-102"/>
 		</transition>
 	</template>
-	<system>
-//FeedBelt1 = Motor(M1_forward, M1_backward, M1_stop, M1_reverse, M1_fwd, M1_run);
-//FeedBelt2 = Motor(M2_forward, M2_backward, M2_stop, M2_reverse, M2_fwd, M2_run);
-//DistBelt  = Motor(M3_forward, M3_backward, M3_stop, M3_reverse, M3_fwd, M3_run);
-//
-//Sensor1 = LightSensor(75, S1_activate, S1_passivate, S1_readValue, S1_notifyAll, S1_lightOn, S1_input, S1_output);
-//Sensor2 = LightSensor(75, S2_activate, S2_passivate, S2_readValue, S2_notifyAll, S2_lightOn, S2_input, S2_output);
-//
-//SectionA1 = SectionA(A1_enter, A1_id, S1_input);
-//SectionA2 = SectionA(A2_enter, A2_id, S2_input);
-//
-//SimpleLock1 = SimpleLock(SL1_locked, SL1_lock, after-before);
-//SimpleLock2 = SimpleLock(SL1_locked, SL1_lock, after-before);
-//DirectionLock1 = DirectionLock(DL_locked, DL_lock_long, DL_lock_short, LONG_PATH_WAIT_TIME, SHORT_PATH_WAIT_TIME);
-//
-//User2 = UserWithSep(150, checkIn2);
-//User3 = UserBothCheckIns(40);
-//
-//Controller1 = Controller(
-//    AWAIT_VALID_COLOR, 
-//    ADVANCE_BEYOND_SENSOR, 
-//    FOLLOW_END_FEED_BELT, 
-//    LONG_PATH_WAIT_TIME, 
-//    SHORT_PATH_WAIT_TIME);
-//
-//system Controller1, Bag,
-//    Sensor1, Sensor2, 
-//    SectionA1, SectionA2, User1, 
-//    FeedBelt1, FeedBelt2, DistBelt,
-//    SimpleLock1, SimpleLock2, DirectionLock1;
-
-system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSensor, User, Motor; 
-    </system>
+	<system>system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSensor, User, Motor;     </system>
 	<queries>
 		<query>
 			<formula>A[] forall(i:t_id) Bag(i).Dest_A imply lastCheckinA &gt;= 14
@@ -1138,15 +1106,15 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).C1 imply M_run[0] and Bag(i).dir == M_fwd[2]
+			<formula>A[] forall(i:t_id) Bag(i).C1 imply Bag(i).dir == M_fwd[2]
 			</formula>
-			<comment>While a bag is turning (in section c), neither the feed belt nor the distribution belt is stopped or reversed.
+			<comment>When a bag arrives at section C then the direction of the distribution belt is the same as the desired direction of the bag.
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) Bag(i).C2 imply M_run[1] and Bag(i).dir == M_fwd[2]
+			<formula>A[] forall(i:t_id) Bag(i).C2 imply Bag(i).dir == M_fwd[2]
 			</formula>
-			<comment>While a bag is turning (in section c), neither the feed belt nor the distribution belt is stopped or reversed.
+			<comment>When a bag arrives at section C then the direction of the distribution belt is the same as the desired direction of the bag.
 			</comment>
 		</query>
 		<query>
@@ -1156,13 +1124,13 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) forall(j:t_id) Bag(i).C1 &amp;&amp; Bag(j).D1 imply i == j
+			<formula>A[] forall(i:t_id) forall(j:t_id) Bag(i).C1 &amp;&amp; Bag(j).D1 imply false
 			</formula>
 			<comment>Bags must not be be simultaneously present in sections c) and d) belonging to the same feed belt to avoid collisions.
 			</comment>
 		</query>
 		<query>
-			<formula>A[] forall(i:t_id) forall(j:t_id) Bag(i).C2 &amp;&amp; Bag(j).D2 imply i == j
+			<formula>A[] forall(i:t_id) forall(j:t_id) Bag(i).C2 &amp;&amp; Bag(j).D2 imply false
 			</formula>
 			<comment>Bags must not be be simultaneously present in sections c) and d) belonging to the same feed belt to avoid collisions.
 			</comment>
@@ -1170,14 +1138,14 @@ system ColorUpdater, Bag, Feeder, DirectionLock, SimpleLock, SectionA, LightSens
 		<query>
 			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &gt;= 58
 			</formula>
-			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 24 + 24 +10 = 58
+			<comment>Query for determining the minimal handling time e.g. a bag that follows the shortest path to the destination. Based on the model the minimal handling time is 2.4 + 2.4 +1.0 = 5.8 seconds
 			</comment>
 		</query>
 		<query>
 			<formula>A[] forall(i:t_id) (Bag(i).Dest_A or Bag(i).Dest_B) imply Bag(i).handling &lt;= 936
 			</formula>
-			<comment>Query to verify that each individual bag will not exceed a handling time of 120. The worst case handling time will be 936, which can be determined by assuming that all bags needs to follow the long path to their destination. 
-If one bag has a different color than the rest and one of the other manages to pass the sensor before it then the processing time for 8 * 120 - the travel time to past the stop position (24) = 936
+			<comment>Query to verify that each individual bag will not exceed a handling time of 12.0 seconds. The worst case handling time will be 93.6 seconds, which can be determined by assuming that all bags needs to follow the long path to their destination. 
+If one bag has a different color than the rest and one of the other manages to pass the sensor before it then the processing time for 8 * 12.0 - the travel time to past the stop position (2.4) = 93.6 seconds
 			</comment>
 		</query>
 		<query>
@@ -1192,6 +1160,24 @@ Bag(7).A1 + Bag(7).A2 + Bag(7).B1 + Bag(7).B2 + Bag(7).C1 + Bag(7).C2 + Bag(7).D
 			</formula>
 			<comment>Query to determine the maximum amount bags that can be on both the feedbelts and the distribution belt. Defined for only 8 bags. 
 Maximum amount of bags is 5, since there can be one bag at location A1, one at A2, one at C1, one at C2 and one somewhere on the distribution belt
+			</comment>
+		</query>
+		<query>
+			<formula>Motor(0).Stop or Motor(0).Forward --&gt; (not Motor(0).Backward)
+			</formula>
+			<comment>Query checks that the motor for feed belt 1 does not reach the Backward state. Motor(0) represents feed belt 1.
+			</comment>
+		</query>
+		<query>
+			<formula>Motor(1).Stop or Motor(1).Forward --&gt; (not Motor(1).Backward)
+			</formula>
+			<comment>Query checks that the motor for feed belt 2 does not reach the Backward state. Motor(0) represents feed belt 2.
+			</comment>
+		</query>
+		<query>
+			<formula>Motor(2).Stop --&gt; ((Motor(2).Forward or Motor(2).Backward) and not Motor(2).Stop)
+			</formula>
+			<comment>This query checks ensures that the distribution belt (Motor 2) does not return to the Stop after being activated.
 			</comment>
 		</query>
 	</queries>
