@@ -1081,25 +1081,49 @@ M_run[id]:=true</label>
 		<query>
 			<formula>(Bag(0).A1 or Bag(0).A2) --&gt; Bag(0).Initial
 			</formula>
-			<comment>
+			<comment>Activity: A bag will arrive at a destination
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(1).A1 or Bag(1).A2) --&gt; Bag(1).Initial
 			</formula>
-			<comment>
+			<comment>Activity: A bag will arrive at a destination
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(2).A1 or Bag(2).A2) --&gt; Bag(2).Initial
 			</formula>
-			<comment>
+			<comment>Activity: A bag will arrive at a destination
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(3).A1 or Bag(3).A2) --&gt; Bag(3).Initial
 			</formula>
-			<comment>
+			<comment>Activity: A bag will arrive at a destination
+			</comment>
+		</query>
+		<query>
+			<formula>(Bag(4).A1 or Bag(4).A2) --&gt; Bag(4).Initial
+			</formula>
+			<comment>Activity: A bag will arrive at a destination
+			</comment>
+		</query>
+		<query>
+			<formula>(Bag(5).A1 or Bag(5).A2) --&gt; Bag(5).Initial
+			</formula>
+			<comment>Activity: A bag will arrive at a destination
+			</comment>
+		</query>
+		<query>
+			<formula>(Bag(6).A1 or Bag(6).A2) --&gt; Bag(6).Initial
+			</formula>
+			<comment>Activity: A bag will arrive at a destination
+			</comment>
+		</query>
+		<query>
+			<formula>(Bag(7).A1 or Bag(7).A2) --&gt; Bag(7).Initial
+			</formula>
+			<comment>Activity: A bag will arrive at a destination
 			</comment>
 		</query>
 		<query>
