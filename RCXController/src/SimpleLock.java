@@ -4,17 +4,16 @@ public class SimpleLock implements TimerListener {
 	
 	private Timer 	timer;
 	private boolean locked;
+	
+	private static final int DELAY = 6200;
 
-	int no;
-
-	public SimpleLock(int _no) {
-		no = _no;
+	public SimpleLock() {
 		timer = new Timer(this);
 	}
 	
 	public synchronized void lock() {
 		locked = true;
-		timer.start(6200);
+		timer.start(DELAY);
 	}
 	
 	public synchronized boolean isLocked() {

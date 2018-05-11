@@ -11,7 +11,9 @@ public class Feeder extends Thread {
 	final DirectionLock myDirLock;
 	final SimpleLock mySimpleLock, myOppositeLock;
 
-	public Feeder(int id, DirectionLock myDirLock, SimpleLock mySimpleLock, SimpleLock myOppositeLock) {
+	public Feeder(int id, DirectionLock myDirLock, 
+			SimpleLock mySimpleLock, 
+			SimpleLock myOppositeLock) {
 		this.id = id;
 		this.myDirLock = myDirLock;
 		this.mySimpleLock = mySimpleLock;
@@ -24,9 +26,11 @@ public class Feeder extends Thread {
 			boolean destA; // Required destination is A
 			boolean f1 = id == 1;
 			
-			final Motor 	myMotor 	 = f1 ? Motor.A : Motor.B;
-			final Sensor 	mySensor 	 = f1 ? Sensor.S1 : Sensor.S2;
-			final int 		myPollMask 	 = f1 ? Poll.SENSOR1_MASK : Poll.SENSOR2_MASK;
+			final Motor  myMotor 	= f1 ? Motor.A : Motor.B;
+			final Sensor mySensor 	= f1 ? Sensor.S1 
+										 : Sensor.S2;
+			final int 	 myPollMask = f1 ? Poll.SENSOR1_MASK 
+										 : Poll.SENSOR2_MASK;
 
 			Poll e = new Poll();
 			
@@ -34,22 +38,30 @@ public class Feeder extends Thread {
 			myMotor.forward();
 
 			while (true) {
-				// Await arrival of a bag (Polling sensor)
 				mySensor.activate();
-				while (mySensor.readValue() > BLOCKED) { e.poll(myPollMask, 0); }
+				
+				// Await arrival of a bag (Polling sensor)
+				while (mySensor.readValue() > BLOCKED) { 
+					e.poll(myPollMask, 0); 
+				}
+				
+				// Wait for color to be valid
+				Thread.sleep(800); 
 
-				Thread.sleep(800); // Wait for color to be valid
-
-				destA = (mySensor.readValue() > BLACK); // Determine destination
+				// Determine destination
+				destA = (mySensor.readValue() > BLACK); 
 				mySensor.passivate();
 
-				Thread.sleep(2600); // Advance beyond sensor
+				// Advance beyond sensor
+				Thread.sleep(2600); 
+				
 				dirA = Motor.C.isForward();
-				if (dirA != destA) { // Decide whether to stop or not
+				// Decide whether to stop or not
+				if (dirA != destA) { 
 					myMotor.stop();
 					synchronized (myDirLock) {
 						while (myDirLock.isLocked() 
-								&& Motor.C.isForward() != destA)
+								&& Motor.C.isForward() != destA)							
 							myDirLock.wait(); // Await direction lock
 						if (Motor.C.isForward() != destA)
 							Motor.C.reverseDirection();
@@ -70,7 +82,8 @@ public class Feeder extends Thread {
 				}
 				else { // Long path 
 					myDirLock.lockLong();
-					Thread.sleep(2300); // Wait before locking intersection
+					// Wait before locking intersection
+					Thread.sleep(2300); 
 					myOppositeLock.lock();
 				}
 			}

@@ -14,9 +14,6 @@ const int SHORT_PATH_WAIT_TIME  = 40 + B_rest;
 const int ENTER_INTERSECTION_TIME = (6 + 24 + 27) - (6 + 28);
 const int LEAVE_INTERSECTION_TIME = (6 + 28 + 33 + 24) - (6);
 
-int simulation = 0;
-//isblack[id]:=(simulation &amp; (1 &lt;&lt; id)) &gt;&gt; id
-
 // UTILITY
 urgent broadcast chan go;
 
@@ -27,13 +24,7 @@ typedef int[0,FEEDS-1] F_id;
 // BAGS
 const int BAGS = 8;
 typedef int[0,BAGS-1] t_id;
-
-//int[0,1] isblack[BAGS] = { 1, 0, 1, 0 }; // Alternating
-//int[0,1] isblack[BAGS] = { 1, 1, 1, 1 }; // All black
-//int[0,1] isblack[BAGS] = { 0, 0, 0, 0 }; // All yellow
-//int[0,1] isblack[BAGS] = { 1, 0, 0, 0 }; // One black
-//int[0,1] isblack[BAGS] = { 0, 1, 1, 1 }; // One yellow
-int[0,1] isblack[BAGS] = { 0,0,0,0,0,0,0,0};
+int[0,1] isblack[BAGS];
 
 // COLOR
 int[0,255] current_Color;
@@ -42,14 +33,6 @@ chan arrived;
 
 urgent chan checkIn[FEEDS][BAGS];
 clock lastCheckinA, lastCheckinB;
-
-const int MAX_HANDLING_TIME = 100;
-const int TOTAL_HANDLING_TIME = MAX_HANDLING_TIME * BAGS;
-
-// QUEUE
-
-chan pop, push;
-int[0,BAGS] e;
 
 // USER
 const int USERS = 2;
@@ -98,7 +81,7 @@ const int DL_longWait = LONG_PATH_WAIT_TIME;
 const int DL_shortWait = SHORT_PATH_WAIT_TIME;</declaration>
 	<template>
 		<name>ColorUpdater</name>
-		<declaration>int noOfBags=0;
+		<declaration>int noOfBags=0, i;
 
 void updateColors() {
     if (current_Color == 255) {
@@ -106,14 +89,9 @@ void updateColors() {
     } else {
         current_Color++;
     }
-    isblack[0]=(current_Color &amp; (1&lt;&lt;0))&gt;&gt;0;
-    isblack[1]=(current_Color &amp; (1&lt;&lt;1))&gt;&gt;1;
-    isblack[2]=(current_Color &amp; (1&lt;&lt;2))&gt;&gt;2;
-    isblack[3]=(current_Color &amp; (1&lt;&lt;3))&gt;&gt;3;
-    isblack[4]=(current_Color &amp; (1&lt;&lt;4))&gt;&gt;4;
-    isblack[5]=(current_Color &amp; (1&lt;&lt;5))&gt;&gt;5;
-    isblack[6]=(current_Color &amp; (1&lt;&lt;6))&gt;&gt;6;
-    isblack[7]=(current_Color &amp; (1&lt;&lt;7))&gt;&gt;7;
+    for (i = 0; i &lt; BAGS; i++) {
+        isblack[i]=(current_Color &amp; (1&lt;&lt;i))&gt;&gt;i;
+    }
 }</declaration>
 		<location id="id0" x="255" y="0">
 			<name x="245" y="-34">Update</name>
@@ -546,12 +524,12 @@ x:=DL_startShort</label>
 bool dirA, destA;
 bool feederA() { return id == 0; }
 
-bool isLongPath() { return destA != feederA(); }
-bool isShortPath() { return !isLongPath(); }
+bool isShortPath() { return destA == feederA(); }
+bool isLongPath() { return !isShortPath(); }
 
-bool isClear (int value) { return value &gt; 70 || value == 0; }
-bool isYellow(int value) { return value &gt;= 50 &amp;&amp; value &lt;= 60; }
-bool isBlack (int value) { return value &gt;= 35 &amp;&amp; value &lt;= 45; }</declaration>
+bool isClear (int v) { return v &gt;  70 || v ==  0; }
+bool isYellow(int v) { return v &gt;= 50 &amp;&amp; v &lt;= 60; }
+bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 		<location id="id31" x="-884" y="-544">
 			<committed/>
 		</location>
@@ -1102,49 +1080,25 @@ M_run[id]:=true</label>
 		<query>
 			<formula>(Bag(0).A1 or Bag(0).A2) --&gt; Bag(0).Initial
 			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
+			<comment>
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(1).A1 or Bag(1).A2) --&gt; Bag(1).Initial
 			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
+			<comment>
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(2).A1 or Bag(2).A2) --&gt; Bag(2).Initial
 			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
+			<comment>
 			</comment>
 		</query>
 		<query>
 			<formula>(Bag(3).A1 or Bag(3).A2) --&gt; Bag(3).Initial
 			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
-			</comment>
-		</query>
-		<query>
-			<formula>(Bag(4).A1 or Bag(4).A2) --&gt; Bag(4).Initial
-			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
-			</comment>
-		</query>
-		<query>
-			<formula>(Bag(5).A1 or Bag(5).A2) --&gt; Bag(5).Initial
-			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
-			</comment>
-		</query>
-		<query>
-			<formula>(Bag(6).A1 or Bag(6).A2) --&gt; Bag(6).Initial
-			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
-			</comment>
-		</query>
-		<query>
-			<formula>(Bag(7).A1 or Bag(7).A2) --&gt; Bag(7).Initial
-			</formula>
-			<comment>Activity: Every bag will eventually come back to the initial state, which in turn mean that it will have to pass through one of the destinations.
+			<comment>
 			</comment>
 		</query>
 		<query>

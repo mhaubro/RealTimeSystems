@@ -38,15 +38,18 @@ public class Timer {
 	}
 	
 	/**
-	 * Stops the timer, preventing it from invoking timedOut.
+	 * Stops the timer, preventing it from 
+	 * invoking timedOut.
 	 */
 	public synchronized void stop() {
 		delay = -1;
 	}
 
 	/**
-	 * Start the timer, invoking timedOut after the given delay. <br>
-	 * Note that the timer will not time out if it is started again prematurely.
+	 * Start the timer, invoking timedOut 
+	 * after the given delay. <br>
+	 * Note that the timer will not time out 
+	 * if it is started again prematurely.
 	 */
 	public synchronized void start(int _delay) {
 		start = (int) System.currentTimeMillis();
