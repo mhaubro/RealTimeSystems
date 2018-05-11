@@ -9,22 +9,22 @@ public class RunSimulation {
 		/* Set simulation parameters */
 		sim.setActiveCheck(true);
 		sim.setFeedCheck(false);
-		sim.setSeparation(0);        // No need for extra separation when respecting sensor activation
+		sim.setSeparation(0);
 
-		/* Start simulator and environment (travellers) */
+		/* Start simulator and environment (travelers) */
 		sim.start();
-		new Travellers(sim).start(); 
+		new Travelers(sim).start(); 
 		
 		/* Run control program */
 		DoubleSort.main(args);
 	}
 }
 
-class Travellers extends Thread {
+class Travelers extends Thread {
 	
 	BagSortSim sim;
 	
-	public Travellers (BagSortSim sim) {
+	public Travelers (BagSortSim sim) {
 		this.sim = sim;
 	}
 	
@@ -32,8 +32,9 @@ class Travellers extends Thread {
 		try {
 			while (true) {
 				sleep((int) (Math.random()*5000));
-				int counter = (Math.random() < 0.5 ? 1 : 2);  // Use only Feed 2 for SingleSort
-				int color   = (Math.random() < 0.6 ? BagSortSim.YELLOW  : BagSortSim.BLACK);
+				int counter = (Math.random() < 0.5 ? 1 : 2); 
+				int color   = (Math.random() < 0.6 ? 
+						BagSortSim.YELLOW  : BagSortSim.BLACK);
 				sim.checkin(counter,color);
 			}
 		} catch (InterruptedException e) {}
