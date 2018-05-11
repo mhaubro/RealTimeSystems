@@ -27,5 +27,4 @@ public class SimpleLock implements TimerListener {
 		locked = false;
 		notifyAll();
 	}
-
 }

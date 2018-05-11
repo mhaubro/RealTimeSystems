@@ -5,8 +5,8 @@ public class DirectionLock implements TimerListener {
 	private Timer 	timer;
 	private boolean locked;
 	
-	private static final int longDelay = 10300;
-	private static final int shortDelay = 4600;
+	private static final int longDelay = 10400;
+	private static final int shortDelay = 4700;
 
 	public DirectionLock() {
 		timer = new Timer(this);

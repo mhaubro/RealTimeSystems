@@ -1,15 +1,5 @@
-
 import bagsortsim.BagSortSim;
 
-
-/**
- * DTU, Course 02224, Real-Time Systems
- * 
- * Example showing how to run the Baggage Sorting Simulator
- * 
- * The Travellers thread shows how to stimulate the simulation
- * automatically.
- */
 public class RunSimulation {
 		
 	public static void main(String[] args) {
@@ -21,16 +11,13 @@ public class RunSimulation {
 		sim.setFeedCheck(false);
 		sim.setSeparation(0);        // No need for extra separation when respecting sensor activation
 
-		
 		/* Start simulator and environment (travellers) */
 		sim.start();
 		new Travellers(sim).start(); 
 		
 		/* Run control program */
 		DoubleSort.main(args);
-		
 	}
-
 }
 
 class Travellers extends Thread {
@@ -51,6 +38,5 @@ class Travellers extends Thread {
 			}
 		} catch (InterruptedException e) {}
 	}
-	
 }
 

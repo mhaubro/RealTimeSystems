@@ -1,19 +1,11 @@
 import josx.util.TimerListener;
 
-/**
- * TestTimer
- */
 public class Timer {
 	private TimerListener 	myListener;
 	private Thread 			myThread;
 	private int 			delay;
 	private int 			start;
 
-	/**
-	 * Create a Timer object. Every theDelay milliseconds the el.timedOut() function
-	 * is called. You may change the delay with setDelay(int). You need to call
-	 * start() explicitly.
-	 */
 	public Timer(TimerListener el) {
 		myListener = el;
 
@@ -45,10 +37,17 @@ public class Timer {
 		};
 	}
 	
+	/**
+	 * Stops the timer, preventing it from invoking timedOut.
+	 */
 	public synchronized void stop() {
 		delay = -1;
 	}
 
+	/**
+	 * Start the timer, invoking timedOut after the given delay. <br>
+	 * Note that the timer will not time out if it is started again prematurely.
+	 */
 	public synchronized void start(int _delay) {
 		start = (int) System.currentTimeMillis();
 		delay = Math.max(delay, _delay);
