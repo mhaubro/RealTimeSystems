@@ -534,6 +534,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 			<committed/>
 		</location>
 		<location id="id32" x="-952" y="-612">
+			<name x="-962" y="-646">Start</name>
 			<committed/>
 		</location>
 		<location id="id33" x="-884" y="-476">
@@ -1187,19 +1188,19 @@ Maximum amount of bags is 5, since there can be one bag at location A1, one at A
 			</comment>
 		</query>
 		<query>
-			<formula>Motor(0).Stop or Motor(0).Forward --&gt; (not Motor(0).Backward)
+			<formula>A[] not(Motor(0).Backward)
 			</formula>
 			<comment>Query checks that the motor for feed belt 1 does not reach the Backward state. Motor(0) represents feed belt 1.
 			</comment>
 		</query>
 		<query>
-			<formula>Motor(1).Stop or Motor(1).Forward --&gt; (not Motor(1).Backward)
+			<formula>A[] not(Motor(1).Backward)
 			</formula>
 			<comment>Query checks that the motor for feed belt 2 does not reach the Backward state. Motor(0) represents feed belt 2.
 			</comment>
 		</query>
 		<query>
-			<formula>Motor(2).Stop --&gt; ((Motor(2).Forward or Motor(2).Backward) and not Motor(2).Stop)
+			<formula>A[] (Feeder(0).Start and Feeder(1).Start) or not(Motor(2).Stop)
 			</formula>
 			<comment>This query checks ensures that the distribution belt (Motor 2) does not return to the Stop after being activated.
 			</comment>
