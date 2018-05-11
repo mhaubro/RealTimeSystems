@@ -537,6 +537,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 			<committed/>
 		</location>
 		<location id="id33" x="-884" y="-476">
+			<name x="-1028" y="-484">Await_Simple_Lock</name>
 		</location>
 		<location id="id34" x="-884" y="-374">
 			<committed/>
@@ -548,7 +549,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 			<committed/>
 		</location>
 		<location id="id37" x="-612" y="-476">
-			<name x="-595" y="-493">Wait_Start_Intersection</name>
+			<name x="-595" y="-493">Await_Start_Intersection</name>
 			<label kind="invariant" x="-595" y="-510">y&lt;=ENTER_INTERSECTION_TIME</label>
 		</location>
 		<location id="id38" x="-748" y="-374">
@@ -561,7 +562,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 			<committed/>
 		</location>
 		<location id="id41" x="-816" y="-102">
-			<name x="-833" y="-85">Wait_End_Dist_Belt</name>
+			<name x="-833" y="-85">Await_Direction_Lock</name>
 		</location>
 		<location id="id42" x="-544" y="-612">
 			<name x="-586" y="-663">Polling_Sensor</name>
@@ -572,19 +573,19 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 		<location id="id44" x="-816" y="-612">
 			<committed/>
 		</location>
-		<location id="id45" x="-408" y="-340">
+		<location id="id45" x="-340" y="-340">
 			<committed/>
 		</location>
-		<location id="id46" x="-408" y="-408">
+		<location id="id46" x="-340" y="-408">
 			<committed/>
 		</location>
-		<location id="id47" x="-408" y="-238">
-			<name x="-383" y="-264">Advance_Beyond_Sensor</name>
-			<label kind="invariant" x="-382" y="-238">y&lt;=ADVANCE_BEYOND_SENSOR</label>
+		<location id="id47" x="-340" y="-238">
+			<name x="-315" y="-264">Advance_Beyond_Sensor</name>
+			<label kind="invariant" x="-314" y="-238">y&lt;=ADVANCE_BEYOND_SENSOR</label>
 		</location>
-		<location id="id48" x="-408" y="-510">
-			<name x="-383" y="-544">Await_Valid_Color</name>
-			<label kind="invariant" x="-391" y="-485">y&lt;=AWAIT_VALID_COLOR</label>
+		<location id="id48" x="-340" y="-510">
+			<name x="-315" y="-544">Await_Valid_Color</name>
+			<label kind="invariant" x="-323" y="-485">y&lt;=AWAIT_VALID_COLOR</label>
 		</location>
 		<location id="id49" x="-816" y="-238">
 			<committed/>
@@ -682,7 +683,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 		<transition>
 			<source ref="id47"/>
 			<target ref="id52"/>
-			<label kind="guard" x="-382" y="-221">y==ADVANCE_BEYOND_SENSOR</label>
+			<label kind="guard" x="-314" y="-221">y==ADVANCE_BEYOND_SENSOR</label>
 			<label kind="assignment" x="-518" y="-229">dirA:=M_fwd[2]</label>
 		</transition>
 		<transition>
@@ -690,7 +691,7 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 			<target ref="id48"/>
 			<label kind="synchronisation" x="-510" y="-637">S_notifyAll[id]?</label>
 			<label kind="assignment" x="-510" y="-612">y:=0</label>
-			<nail x="-408" y="-612"/>
+			<nail x="-340" y="-612"/>
 		</transition>
 		<transition>
 			<source ref="id43"/>
@@ -705,19 +706,19 @@ bool isBlack (int v) { return v &gt;= 35 &amp;&amp; v &lt;= 45; }</declaration>
 		<transition>
 			<source ref="id45"/>
 			<target ref="id47"/>
-			<label kind="synchronisation" x="-391" y="-306">S_passivate[id]!</label>
-			<label kind="assignment" x="-391" y="-323">destA:=isYellow(S_output[id])</label>
+			<label kind="synchronisation" x="-323" y="-306">S_passivate[id]!</label>
+			<label kind="assignment" x="-323" y="-323">destA:=isYellow(S_output[id])</label>
 		</transition>
 		<transition>
 			<source ref="id46"/>
 			<target ref="id45"/>
-			<label kind="synchronisation" x="-391" y="-391">S_readValue[id]!</label>
+			<label kind="synchronisation" x="-323" y="-391">S_readValue[id]!</label>
 		</transition>
 		<transition>
 			<source ref="id48"/>
 			<target ref="id46"/>
-			<label kind="guard" x="-391" y="-468">y==AWAIT_VALID_COLOR</label>
-			<label kind="assignment" x="-391" y="-451">y:=0</label>
+			<label kind="guard" x="-323" y="-468">y==AWAIT_VALID_COLOR</label>
+			<label kind="assignment" x="-323" y="-451">y:=0</label>
 		</transition>
 		<transition>
 			<source ref="id49"/>
